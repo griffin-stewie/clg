@@ -1,0 +1,17 @@
+Usage:
+
+    $ clg COMMAND
+
+     clg, generates Color stuffs Swift code, Objective-C code, colors.xml, clr file, and JSON
+
+Coomands:
+
+    clr    generates clr file from JSON
+    json   generates JSON from clr file OR CSV file OR ASE file a.k.a. "Adobe Swatch Exchange"
+    code   generates Swift code, Objective-C code, colors.xml from JSON
+    help   show help
+
+Options:
+
+    --version, v  print the version
+    --help, h     show help

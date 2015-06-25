@@ -1,0 +1,5 @@
+[
+  { "name": "background", "hex": "#292D44" },
+  { "name": "bold text", "hex": "#121E63" },
+  { "name": "regular text", "r": "7", "g": "29", "b": "163" },
+]

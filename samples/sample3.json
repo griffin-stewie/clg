@@ -1,0 +1,10 @@
+[
+  { "name": "primary", "hex": "#607D8B" },
+  { "name": "primary_dark", "hex": "#455A64" },
+  { "name": "primary_light", "hex": "#CFD8DC" },
+  { "name": "accent", "hex": "#FF5722" },
+  { "name": "primary_text", "hex": "#212121" },
+  { "name": "secondary_text", "hex": "#727272" },
+  { "name": "icons", "hex": "#FFFFFF" },
+  { "name": "divider", "hex": "#B6B6B6" }
+]
