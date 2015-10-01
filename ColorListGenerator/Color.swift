@@ -39,19 +39,21 @@ class Color {
         }
     }
 
-    class func colorFromHexString(value: String) -> NSColor? {
+    class func colorFromHexString(value: String, var alpha: CGFloat = 1.0) -> NSColor? {
         var red: CGFloat = 0.0
         var green: CGFloat = 0.0
         var blue: CGFloat = 0.0
-        var alpha: CGFloat = 1.0
         let characters = Array(value.utf8)
         if 6 <= characters.count {
             red = Color.colorValue(characters[0], characters[1])
             green = Color.colorValue(characters[2], characters[3])
             blue = Color.colorValue(characters[4], characters[5])
         }
-        if 8 <= characters.count {
-            alpha = Color.colorValue(characters[6], characters[7])
+        if 8 == characters.count {
+            alpha = Color.colorValue(characters[0], characters[1])
+            red = Color.colorValue(characters[2], characters[3])
+            green = Color.colorValue(characters[4], characters[5])
+            blue = Color.colorValue(characters[6], characters[7])
         }
 
         return NSColor(deviceRed: red, green: green, blue: blue, alpha: alpha).colorUsingColorSpace(NSColorSpace.sRGBColorSpace())
@@ -98,10 +100,17 @@ class Color {
             return Int(component * 255.0)
         }
 
-        let hex = toInt(x.redComponent) * 0x10000
+        var hexFormat: String = "%06x"
+        var hex = toInt(x.redComponent) * 0x10000
             + toInt(x.greenComponent) * 0x100
             + toInt(x.blueComponent)
-        let hexString = NSString(format: "%06x", hex).uppercaseString as String
+
+        if (x.alphaComponent != 1.0) {
+            hexFormat = "%08x"
+            hex += toInt(x.alphaComponent) * 0x1000000
+        }
+
+        let hexString = NSString(format: hexFormat, hex).uppercaseString as String
         if needsHashMark {
             return "#" + hexString
 
