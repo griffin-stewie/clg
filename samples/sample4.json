@@ -1,0 +1,16 @@
+[
+    {
+        "name": "bg_white",
+        "hex": "#ffffff",
+    },
+    {
+        "name": "text",
+        "hex": "#000000",
+        "a": 0.03,
+    },
+    {
+        "name": "primary",
+        "hex": "#607D8B",
+        "a": 0.8,
+    }
+]
