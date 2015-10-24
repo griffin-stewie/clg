@@ -22,7 +22,11 @@ class Color {
 
         if let hex = dictionary["hex"] as? String {
             let trimed = hex.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString:"#"))
-            color = Color.colorFromHexString(trimed)
+            if let alpha = dictionary["a"] as? CGFloat {
+                color = Color.colorFromHexString(trimed, alpha: alpha)
+            } else {
+                color = Color.colorFromHexString(trimed)
+            }
         } else {
             let red = dictionary["r"] as? String
             let green = dictionary["g"] as? String
