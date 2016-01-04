@@ -71,11 +71,10 @@ class ToCLR: Root {
 
         CSNDebugPrintStandardOutput(colorDicts.description)
 
-
         var colors = [Color]()
         for d in colorDicts {
             if let dict = d as? NSDictionary {
-                if let color = Color(dictionary: dict) {
+                if let color = Color(dictionary: dict, colorSpace: colorSpace()) {
                     colors.append(color)
                 }
             }
@@ -116,12 +115,23 @@ class ToCLR: Root {
         return s
     }
 
-    func colorSpace -> NSColorSpace {
+    func colorSpace() -> NSColorSpace {
         let colorSpace: NSColorSpace
         if let c = self.colorspace {
-
+            switch c {
+            case "deviceRGB":
+                colorSpace = NSColorSpace.deviceRGBColorSpace()
+            case "genericRGB":
+                colorSpace = NSColorSpace.genericRGBColorSpace()
+            case "sRGB":
+                colorSpace = NSColorSpace.sRGBColorSpace()
+            default:
+                colorSpace = NSColorSpace.sRGBColorSpace()
+            }
         } else {
             colorSpace = NSColorSpace.sRGBColorSpace()
         }
+
+        return colorSpace
     }
 }
