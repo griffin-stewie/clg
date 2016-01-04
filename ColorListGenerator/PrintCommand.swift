@@ -8,7 +8,7 @@
 
 import Foundation
 
-func CSNPrintStandardOutput(string: String, #needsProcessName: Bool) {
+func CSNPrintStandardOutput(string: String, needsProcessName: Bool) {
     let processName = NSProcessInfo.processInfo().processName
     var output = ""
 
@@ -28,7 +28,7 @@ func CSNPrintStandardOutput(string: String, #needsProcessName: Bool) {
 func CSNPrintStandardOutput(strings: String...) {
     var concat = ""
     for str in strings {
-        concat.extend(str)
+        concat.appendContentsOf(str)
     }
     CSNPrintStandardOutput(concat, needsProcessName:false)
 }
@@ -36,7 +36,7 @@ func CSNPrintStandardOutput(strings: String...) {
 func CSNDebugPrintStandardOutput(strings: String...) {
     var concat = ""
     for str in strings {
-        concat.extend(str)
+        concat.appendContentsOf(str)
     }
 
 #if DEBUG
@@ -44,7 +44,7 @@ func CSNDebugPrintStandardOutput(strings: String...) {
 #endif
 }
 
-func CSNPrintStandardError(string: String, #needsProcessName: Bool) {
+func CSNPrintStandardError(string: String, needsProcessName: Bool) {
     let processName = NSProcessInfo.processInfo().processName
     var output = ""
 
@@ -63,7 +63,7 @@ func CSNPrintStandardError(string: String, #needsProcessName: Bool) {
 func CSNPrintStandardError(strings: String...) {
     var concat = ""
     for str in strings {
-        concat.extend(str)
+        concat.appendContentsOf(str)
     }
     CSNPrintStandardError(concat, needsProcessName:false)
 }

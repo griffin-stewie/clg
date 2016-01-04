@@ -25,7 +25,7 @@ enum Code: String {
                     methodName = "cName" + "Color()"
                 }
 
-                var code = "    class func \(methodName) -> UIColor {\n" +
+                let code = "    class func \(methodName) -> UIColor {\n" +
                     "        return UIColor(red: \(Double(color.color!.redComponent)), green: \(Double(color.color!.greenComponent)), blue: \(Double(color.color!.blueComponent)), alpha: \(Double(color.color!.alphaComponent)))\n" +
                 "    }\n\n"
                 return code
@@ -45,21 +45,28 @@ enum Code: String {
 
                 var e: NSError? = nil
 
-                if let URL = NSURL(fileURLWithPath:directory.stringByAppendingPathComponent("AppColors.swift").stringByStandardizingPath), let path = URL.path {
-                    let result = code.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding, error: &e)
+                if let path = NSURL(fileURLWithPath:((directory as NSString).stringByAppendingPathComponent("AppColors.swift") as NSString).stringByStandardizingPath).path {
+                    let result: Bool
+                    do {
+                        try code.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding)
+                        result = true
+                    } catch let error as NSError {
+                        e = error
+                        result = false
+                    }
                     if result {
                         CSNPrintStandardOutput("SUCCESS: saved to \(path)")
                     }
                     #if DEBUG
-                        println(e)
-                        println(result)
+                        print(e)
+                        print(result)
                     #endif
                 } else {
                     CSNPrintStandardOutput("FAILED: failed to save swift extension file")
                 }
             }
 
-            generateSwiftFile(colors, directory)
+            generateSwiftFile(colors, directory: directory)
 
         case .ObjC:
             func classMethodInterface(color: Color) -> String {
@@ -72,7 +79,7 @@ enum Code: String {
                 }
 
 
-                var code = "+ (UIColor *)clr_\(methodName);\n\n"
+                let code = "+ (UIColor *)clg_\(methodName);\n\n"
                 return code
             }
 
@@ -85,7 +92,7 @@ enum Code: String {
                     methodName = "cName" + "Color()"
                 }
 
-                var code = "+ (UIColor *)clr_\(methodName)\n" +
+                let code = "+ (UIColor *)clg_\(methodName)\n" +
                 "{\n" +
                 "    return [UIColor colorWithRed:\(Double(color.color!.redComponent)) green:\(Double(color.color!.greenComponent)) blue:\(Double(color.color!.blueComponent)) alpha:\(Double(color.color!.alphaComponent))];\n" +
                 "}\n\n"
@@ -108,18 +115,24 @@ enum Code: String {
 
                 var e: NSError? = nil
 
-                let filePath = directory.stringByAppendingPathComponent("UIColor+CLRGeneratedAdditions.h").stringByStandardizingPath
-                if let URL = NSURL(fileURLWithPath:filePath), let path = URL.path {
-                    let result = code.writeToFile(path,
-                        atomically: true,
-                        encoding: NSUTF8StringEncoding,
-                        error: &e)
+                let filePath = ((directory as NSString).stringByAppendingPathComponent("UIColor+CLRGeneratedAdditions.h") as NSString).stringByStandardizingPath
+                if let path = NSURL(fileURLWithPath:filePath).path {
+                    let result: Bool
+                    do {
+                        try code.writeToFile(path,
+                                                atomically: true,
+                                                encoding: NSUTF8StringEncoding)
+                        result = true
+                    } catch let error as NSError {
+                        e = error
+                        result = false
+                    }
                     if result {
                         CSNPrintStandardOutput("SUCCESS: saved to \(path)")
                     }
                     #if DEBUG
-                        println(e)
-                        println(result)
+                        print(e)
+                        print(result)
                     #endif
                 } else {
                     CSNPrintStandardOutput("FAILED: failed to save swift extension file")
@@ -142,15 +155,22 @@ enum Code: String {
                 code += "@end"
 
                 var e: NSError? = nil
-                let filePath = directory.stringByAppendingPathComponent("UIColor+CLRGeneratedAdditions.m").stringByStandardizingPath
-                if let URL = NSURL(fileURLWithPath:filePath), let path = URL.path {
-                    let result = code.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding, error: &e)
+                let filePath = ((directory as NSString).stringByAppendingPathComponent("UIColor+CLRGeneratedAdditions.m") as NSString).stringByStandardizingPath
+                if let path = NSURL(fileURLWithPath:filePath).path {
+                    let result: Bool
+                    do {
+                        try code.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding)
+                        result = true
+                    } catch let error as NSError {
+                        e = error
+                        result = false
+                    }
                     if result {
                         CSNPrintStandardOutput("SUCCESS: saved to \(path)")
                     }
                     #if DEBUG
-                        println(e)
-                        println(result)
+                        print(e)
+                        print(result)
                     #endif
                 } else {
                     CSNPrintStandardOutput("FAILED: failed to save swift extension file")
@@ -158,8 +178,8 @@ enum Code: String {
 
             }
 
-            generateObjCHeaderFile(colors, directory)
-            generateObjCImplementationFile(colors, directory)
+            generateObjCHeaderFile(colors, fileName: directory)
+            generateObjCImplementationFile(colors, fileName: directory)
 
         case .Android:
             func colorElement(color: Color) -> String {
@@ -173,9 +193,9 @@ enum Code: String {
             }
 
             func generateColorXMLFile(colors: [Color], fileName: String) {
-                var code = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                var code = "<!-- Palette generated by clg -->"
                     + "\n"
-                    + "<!-- Palette generated by clg -->"
+                    + "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                     + "\n"
                     + "<resources>"
                     + "\n"
@@ -187,24 +207,29 @@ enum Code: String {
                 code += "</resources>"
 
                 var e: NSError? = nil
-                let filePath = directory.stringByAppendingPathComponent("colors.xml").stringByStandardizingPath
-                if let URL = NSURL(fileURLWithPath:filePath), let path = URL.path {
-                    let result = code.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding, error: &e)
+                let filePath = ((directory as NSString).stringByAppendingPathComponent("colors.xml") as NSString).stringByStandardizingPath
+                if let path = NSURL(fileURLWithPath:filePath).path {
+                    let result: Bool
+                    do {
+                        try code.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding)
+                        result = true
+                    } catch let error as NSError {
+                        e = error
+                        result = false
+                    }
                     if result {
                         CSNPrintStandardOutput("SUCCESS: saved to \(path)")
                     }
                     #if DEBUG
-                        println(e)
-                        println(result)
+                        print(e)
+                        print(result)
                     #endif
                 } else {
                     CSNPrintStandardOutput("FAILED: failed to save swift extension file")
                 }
             }
 
-            generateColorXMLFile(colors, directory)
-        default:
-            CSNPrintStandardError("Unkonow code type")
+            generateColorXMLFile(colors, fileName: directory)
         }
     }
 

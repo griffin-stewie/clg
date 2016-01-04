@@ -23,33 +23,27 @@ struct FileDetector {
     }
 
     func detectFileType (a: String) -> FileType {
-        if let URL = NSURL(fileURLWithPath: a) {
-            return detectFileType(URL)
-        }
-
-        return .Unknown
+        let URL = NSURL(fileURLWithPath: a)
+        return detectFileType(URL)
     }
 
     func detectFileType (a: NSURL) -> FileType {
-        if let str = a.absoluteString {
-            let ext = str.pathExtension.lowercaseString
-            switch ext {
-            case "clr":
-                return .CLR
-            case "ase":
-                return .ASE
-            case "json":
-                return .JSON
-            case "csv":
-                return .CSV
-            case "txt":
-                return .CSV
-            default:
-                return .Unknown
-            }
+        let str = a.absoluteString
+        let ext = (str as NSString).pathExtension.lowercaseString
+        switch ext {
+        case "clr":
+            return .CLR
+        case "ase":
+            return .ASE
+        case "json":
+            return .JSON
+        case "csv":
+            return .CSV
+        case "txt":
+            return .CSV
+        default:
+            return .Unknown
         }
-
-        return .Unknown
     }
 
     func detectFileType (a: NSColorList) -> FileType {

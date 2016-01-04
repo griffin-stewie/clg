@@ -274,6 +274,8 @@
 		E3736D5B1B061A18005E01E5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0720;
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "net.cyan-stivy";
 				TargetAttributes = {

@@ -47,18 +47,10 @@ class ToCode: Root {
             }
         }
 
-        let paletteName: String
-        if let p = self.paletteName {
-            paletteName = p
-        } else {
-            paletteName = "clrgen"
-        }
-
-        var error: NSError?
-        let colorDicts: NSArray! = NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.AllowFragments, error: &error) as? NSArray
+        let colorDicts: NSArray! = try! NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.AllowFragments) as? NSArray
 
         if nil == colorDicts {
-            CSNPrintStandardError("Error: \(error)")
+            CSNPrintStandardError("Error: Color list JSON is nil")
             exit(-1)
         }
 
@@ -97,17 +89,14 @@ class ToCode: Root {
     }
 
     func palletteNameFromPath(path: String) -> String {
-        if let URL = NSURL(fileURLWithPath: path), let str = URL.absoluteString {
-            let ext = str.pathExtension
-            let s = str.lastPathComponent.stringByReplacingOccurrencesOfString("." + ext, withString: "", options: nil, range: nil)
-            //            println(s)
-            return s
-        }
-
-        return "CLRGen"
+        let str = NSURL(fileURLWithPath: path).absoluteString
+        let ext = (str as NSString).pathExtension
+        let s = (str as NSString).lastPathComponent.stringByReplacingOccurrencesOfString("." + ext, withString: "", options: [], range: nil)
+        //            println(s)
+        return s
     }
-    
-    func generateCodeFile(#colors: [Color], code: String) {
+
+    func generateCodeFile(colors colors: [Color], code: String) {
         Code(rawValue:code)?.generateCode(colors, directory:".")
     }
 }
