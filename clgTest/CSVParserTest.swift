@@ -23,13 +23,14 @@ class CSVParserTest: XCTestCase {
 
     func testExample() {
 
-        var path = NSBundle(forClass: self.dynamicType).pathForResource("color", ofType: "csv")
+        let path = NSBundle(forClass: self.dynamicType).pathForResource("color", ofType: "csv")
         XCTAssertNotNil(path, "");
 
-        if let path = path, let fileURL = NSURL(fileURLWithPath: path) {
-            let text = NSString(contentsOfURL:fileURL , encoding: NSUTF8StringEncoding, error: nil) as! String
+        if let path = path {
+            let fileURL = NSURL(fileURLWithPath: path)
+            let text = try! NSString(contentsOfURL:fileURL , encoding: NSUTF8StringEncoding) as String
 
-            var results = CSVParser().parse(text)
+            let results = CSVParser().parse(text)
             XCTAssertNotNil(results, "should not be nil")
             if let colorList = results {
                 XCTAssertNotNil(colorList.colorWithKey("Accent"), "there is no color 'Accent'")

@@ -101,7 +101,7 @@ struct ASEParser {
         if let ASEFileHandle = NSFileHandle(forReadingAtPath:path) {
             let header = ASEFileHandle.readDataOfLength(4)
             if header != NSData(bytes: SIGNATURE, length: 4) {
-                NSLog("%s %@", __FUNCTION__, "this file is not ASE");
+                NSLog("%s %@", #function, "this file is not ASE");
                 return nil
             }
 
@@ -109,8 +109,8 @@ struct ASEParser {
             let minVData: NSData = ASEFileHandle.readDataOfLength(2)
             let nblocksData: NSData = ASEFileHandle.readDataOfLength(4)
 
-            let minV:UInt16 = minVData.readUInt16BE(minVData.length)
-            let majV:UInt16 = majVData.readUInt16BE(majVData.length)
+            _ = minVData.readUInt16BE(minVData.length)
+            _ = majVData.readUInt16BE(majVData.length)
             let nBlocks:UInt32 = nblocksData.readUInt32BE(nblocksData.length)
 
             //NSLog("Version %d.%d, blocks %d", majV, minV, nBlocks);
@@ -135,7 +135,7 @@ struct ASEParser {
             let colorModelData: NSData = fileHandle.readDataOfLength(4)
             if let colorModel = NSString(data: colorModelData, encoding: NSASCIIStringEncoding) {
                 let color = colorFromModel(colorModel, fileHandle: fileHandle)
-                let type: UInt16 = fileHandle.readDataOfLength(2).bigEndianUInt16()
+                _ = fileHandle.readDataOfLength(2).bigEndianUInt16()
 
                 if name == nil || name == "\0" {
                     let convertedColor = color.colorUsingColorSpaceName(NSDeviceRGBColorSpace)!;
@@ -154,7 +154,7 @@ struct ASEParser {
                 var i :NSInteger = 1;
                 var fixedName :NSString = name!;
                 while (self.colorList.colorWithKey(fixedName as String) != nil) {
-                    i += i++
+                    i += i
                     let s = NSString(format: " %ld", i)
                     fixedName = name!.stringByAppendingString(s as String)
                 }

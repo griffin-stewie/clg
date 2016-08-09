@@ -99,7 +99,7 @@ class ToJSON: Root {
     }
 
     func writeJSONFromColorList(colorList :NSColorList, outputPath :String) -> Bool {
-        if let dicts = CLRParser().parse(colorList) {
+        if let dicts = CLRParser().parse(colorList: colorList) {
             if let jsonData = try? NSJSONSerialization.dataWithJSONObject(dicts, options: NSJSONWritingOptions.PrettyPrinted) {
                 let filePath = (outputPath as NSString).stringByExpandingTildeInPath
                 if jsonData.writeToFile(filePath, atomically: true) {
