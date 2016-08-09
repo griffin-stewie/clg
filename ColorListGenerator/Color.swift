@@ -14,11 +14,7 @@ class Color {
     var name: String?
     var color: NSColor?
 
-    convenience init?(dictionary: NSDictionary) {
-        self.init(dictionary: dictionary, colorSpace: NSColorSpace.sRGBColorSpace())
-    }
-
-    init?(dictionary: NSDictionary, colorSpace: NSColorSpace) {
+    init?(dictionary: NSDictionary) {
         var name: String?
         var color: NSColor?
 
@@ -35,11 +31,11 @@ class Color {
             color = Color.colorFromStrings(red: red, green: green, blue: blue, alpha: alpha)
         }
 
-        if name == nil || color == nil {
+        if nil == name || nil == color {
             return nil
         } else {
             self.name = name
-            self.color = color!.colorUsingColorSpace(colorSpace)
+            self.color = color
         }
     }
 
@@ -58,7 +54,7 @@ class Color {
             alpha = Color.colorValue(characters[6], characters[7])
         }
 
-        return NSColor(deviceRed: red, green: green, blue: blue, alpha: alpha)
+        return NSColor(deviceRed: red, green: green, blue: blue, alpha: alpha).colorUsingColorSpace(NSColorSpace.sRGBColorSpace())
     }
 
     class func colorValue(code1: UInt8, _ code2: UInt8) -> CGFloat {
@@ -82,7 +78,7 @@ class Color {
         let g = Color.floatValueFromString(green) ?? 0.0
         let b = Color.floatValueFromString(blue) ?? 0.0
         let a = Color.floatValueFromString(alpha) ?? 1.0
-        return NSColor(deviceRed: r, green: g, blue: b, alpha: a)
+        return NSColor(deviceRed: r, green: g, blue: b, alpha: a).colorUsingColorSpace(NSColorSpace.sRGBColorSpace())
     }
 
     class func floatValueFromString(value: String?) -> CGFloat? {
