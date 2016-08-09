@@ -22,11 +22,7 @@ class Color {
 
         if let hex = dictionary["hex"] as? String {
             let trimed = hex.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString:"#"))
-            if let alpha = dictionary["a"] as? CGFloat {
-                color = Color.colorFromHexString(trimed, alpha: alpha)
-            } else {
-                color = Color.colorFromHexString(trimed)
-            }
+            color = Color.colorFromHexString(trimed)
         } else {
             let red = dictionary["r"] as? String
             let green = dictionary["g"] as? String
@@ -58,7 +54,7 @@ class Color {
             alpha = Color.colorValue(characters[6], characters[7])
         }
 
-        return NSColor(deviceRed: red, green: green, blue: blue, alpha: alpha).colorUsingColorSpace(NSColorSpace.sRGBColorSpace())
+        return NSColor(calibratedRed: red, green: green, blue: blue, alpha: alpha)
     }
 
     class func colorValue(code1: UInt8, _ code2: UInt8) -> CGFloat {
@@ -77,17 +73,17 @@ class Color {
         }
     }
 
-    class func colorFromStrings(#red: String?, green: String?, blue: String?, alpha: String?) -> NSColor? {
-        var r = Color.floatValueFromString(red) ?? 0.0
-        var g = Color.floatValueFromString(green) ?? 0.0
-        var b = Color.floatValueFromString(blue) ?? 0.0
-        var a = Color.floatValueFromString(alpha) ?? 1.0
-        return NSColor(deviceRed: r, green: g, blue: b, alpha: a).colorUsingColorSpace(NSColorSpace.sRGBColorSpace())
+    class func colorFromStrings(red red: String?, green: String?, blue: String?, alpha: String?) -> NSColor? {
+        let r = Color.floatValueFromString(red) ?? 0.0
+        let g = Color.floatValueFromString(green) ?? 0.0
+        let b = Color.floatValueFromString(blue) ?? 0.0
+        let a = Color.floatValueFromString(alpha) ?? 1.0
+        return NSColor(calibratedRed: r, green: g, blue: b, alpha: a)
     }
 
     class func floatValueFromString(value: String?) -> CGFloat? {
         if let string = value {
-            if let integer = string.toInt() {
+            if let integer = Int(string) {
                 return CGFloat(integer) / 255.0
             } else {
                 return CGFloat((string as NSString).doubleValue)

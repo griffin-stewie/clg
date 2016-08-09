@@ -11,12 +11,14 @@ import Foundation
 
 class ToCLR: Root {
     var output: String?
+    var colorspace: String?
     var code: String?
     var paletteName: String?
 
     override func commandOption() -> CSNCommandOption? {
         let option = CSNCommandOption()
         option.registerOption("output", shortcut: "o", keyName:nil , requirement: CSNCommandOptionRequirement.Required)
+        option.registerOption("colorspace", shortcut: "c", keyName:nil , requirement: CSNCommandOptionRequirement.Optional)
         return option
     }
 
@@ -60,15 +62,15 @@ class ToCLR: Root {
             paletteName = "clrgen"
         }
 
-        var error: NSError?
-        let colorDicts: NSArray! = NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.AllowFragments, error: &error) as? NSArray
+        let colorDicts: NSArray! = try! NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.AllowFragments) as? NSArray
 
         if nil == colorDicts {
-            CSNPrintStandardError("Error: \(error)")
+            CSNPrintStandardError("Error: Color list JSON is nil")
             exit(-1)
         }
 
         CSNDebugPrintStandardOutput(colorDicts.description)
+
 
         var colors = [Color]()
         for d in colorDicts {
@@ -107,13 +109,10 @@ class ToCLR: Root {
     }
 
     func palletteNameFromPath(path: String) -> String {
-        if let URL = NSURL(fileURLWithPath: path), let str = URL.absoluteString {
-            let ext = str.pathExtension
-            let s = str.lastPathComponent.stringByReplacingOccurrencesOfString("." + ext, withString: "", options: nil, range: nil)
-//            println(s)
-            return s
-        }
-
-        return "CLRGen"
+        let str = NSURL(fileURLWithPath: path).absoluteString
+        let ext = (str as NSString).pathExtension
+        let s = (str as NSString).lastPathComponent.stringByReplacingOccurrencesOfString("." + ext, withString: "", options: [], range: nil)
+        //            println(s)
+        return s
     }
 }

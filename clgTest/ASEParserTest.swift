@@ -22,24 +22,12 @@ class ASEParserTest: XCTestCase {
     }
 
     func testExample() {
-
-        var path = NSBundle(forClass: self.dynamicType).pathForResource("Material Palette", ofType: "ase")
+        let path = NSBundle(forClass: self.dynamicType).pathForResource("Material Palette", ofType: "ase")
         XCTAssertNotNil(path, "");
-        var results = ASEParser().parse(path!)
+        let results = ASEParser().parse(path!)
         XCTAssertNotNil(results, "should not be nil")
         if let colorList = results {
-
-            let allKeys = colorList.allKeys.filter { v in
-                if v is String {
-                    return true
-                }
-
-                return false
-            }
-
-            for key in allKeys {
-                println(key)
-            }
+            colorList.allKeys.forEach() { print($0) }
         }
     }
 

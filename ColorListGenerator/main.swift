@@ -8,7 +8,7 @@
 
 import Foundation
 
-let kAppVersion = "0.2.0"
+let kAppVersion = "0.3.0"
 
 let result = CSNCommandLineParser.runWithCommand(Root())
 

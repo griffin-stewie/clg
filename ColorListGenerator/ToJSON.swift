@@ -35,7 +35,6 @@ class ToJSON: Root {
         //        println(self.output);
 
 
-        var jsonData: NSData!
         if let inputPath: String = args[0] as? String {
 
             self.paletteName = palletteNameFromPath(inputPath)
@@ -53,31 +52,43 @@ class ToJSON: Root {
                 outputPath = "\(paletteName).json"
             }
 
-            func writeJSON(colorList: NSColorList) -> Int32 {
-                if writeJSONFromColorList(colorList, outputPath: outputPath) {
-                    return EXIT_SUCCESS
-                } else {
-                    return EXIT_FAILURE
-                }
-            }
-
             let fileType = FileDetector().detectFileType(inputPath)
             switch fileType {
             case .CLR:
-                return NSColorList(name: "x", fromFile: inputPath.stringByExpandingTildeInPath)
-                    .map(writeJSON) ?? EXIT_FAILURE
+                if let colorList = NSColorList(name: "x", fromFile: (inputPath as NSString).stringByExpandingTildeInPath) {
+                    if writeJSONFromColorList(colorList, outputPath: outputPath) {
+                        return EXIT_SUCCESS
+                    } else {
+                        return EXIT_FAILURE
+                    }
+                } else {
+                    return EXIT_FAILURE
+                }
             case .ASE:
-                return ASEParser().parse(inputPath)
-                    .map(writeJSON) ?? EXIT_FAILURE
+                if let colorList = ASEParser().parse(inputPath) {
+                    if writeJSONFromColorList(colorList, outputPath: outputPath) {
+                        return EXIT_SUCCESS
+                    } else {
+                        return EXIT_FAILURE
+                    }
+                } else {
+                    return EXIT_FAILURE
+                }
             case .CSV:
-                return NSURL(fileURLWithPath: inputPath)
-                    .flatMap { fileURL in
-                        return NSString(contentsOfURL:fileURL , encoding: NSUTF8StringEncoding, error: nil) as? String
+                let fileURL = NSURL(fileURLWithPath: inputPath)
+                if let text = (try? NSString(contentsOfURL:fileURL , encoding: NSUTF8StringEncoding)) as? String {
+                    if let colorList = CSVParser().parse(text) {
+                        if writeJSONFromColorList(colorList, outputPath: outputPath) {
+                            return EXIT_SUCCESS
+                        } else {
+                            return EXIT_FAILURE
+                        }
+                    } else {
+                        return EXIT_FAILURE
                     }
-                    .flatMap { text in
-                        return CSVParser().parse(text)
-                    }
-                    .map(writeJSON) ?? EXIT_FAILURE
+                } else {
+                    return EXIT_FAILURE
+                }
             default:
                 return EXIT_FAILURE
             }
@@ -88,15 +99,13 @@ class ToJSON: Root {
     }
 
     func writeJSONFromColorList(colorList :NSColorList, outputPath :String) -> Bool {
-        let k = colorList.allKeys
-
-        if let dicts = CLRParser().parse(colorList) {
-            if let jsonData = NSJSONSerialization.dataWithJSONObject(dicts, options: NSJSONWritingOptions.PrettyPrinted, error: nil) {
+        if let dicts = CLRParser().parse(colorList: colorList) {
+            if let jsonData = try? NSJSONSerialization.dataWithJSONObject(dicts, options: NSJSONWritingOptions.PrettyPrinted) {
                 let filePath = (outputPath as NSString).stringByExpandingTildeInPath
                 if jsonData.writeToFile(filePath, atomically: true) {
-                    println("SUCCESS: saved to \(filePath)")
+                    print("SUCCESS: saved to \(filePath)")
                 } else {
-                    println("FAILED: failed to save to \(filePath)")
+                    print("FAILED: failed to save to \(filePath)")
                 }
             }
 
@@ -108,13 +117,10 @@ class ToJSON: Root {
     }
 
     func palletteNameFromPath(path: String) -> String {
-        if let str = NSURL(fileURLWithPath: path)?.absoluteString {
-            let ext = str.pathExtension
-            let s = str.lastPathComponent.stringByReplacingOccurrencesOfString("." + ext, withString: "", options: nil, range: nil)
-            //            println(s)
-            return s
-        }
-
-        return "CLRGen"
+        let str = NSURL(fileURLWithPath: path).absoluteString
+        let ext = (str as NSString).pathExtension
+        let s = (str as NSString).lastPathComponent.stringByReplacingOccurrencesOfString("." + ext, withString: "", options: [], range: nil)
+        //            println(s)
+        return s
     }
 }

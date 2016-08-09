@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		D0B096AE1B09B38400FB8AE6 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B096AD1B09B38400FB8AE6 /* Color.swift */; };
 		D0B096B01B09B96800FB8AE6 /* CodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B096AF1B09B96800FB8AE6 /* CodeGenerator.swift */; };
-		D0B096B61B09BF9C00FB8AE6 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B096B51B09BF9C00FB8AE6 /* StringExtension.swift */; };
+		D0B096B61B09BF9C00FB8AE6 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B096B51B09BF9C00FB8AE6 /* String+Extension.swift */; };
 		D0C204AB1B0AC5CA00BFD293 /* sample2.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0C204AA1B0AC41600BFD293 /* sample2.json */; };
 		D0C205191B0ACD4600BFD293 /* ToJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C205181B0ACD4600BFD293 /* ToJSON.swift */; };
 		D0C683981B14721700A72107 /* ToCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C683971B14721700A72107 /* ToCode.swift */; };
 		D0D884A81B15A7B000A08B5B /* clgTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D884A71B15A7B000A08B5B /* clgTest.swift */; };
-		D0D884AC1B15A7C400A08B5B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B096B51B09BF9C00FB8AE6 /* StringExtension.swift */; };
+		D0D884AC1B15A7C400A08B5B /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B096B51B09BF9C00FB8AE6 /* String+Extension.swift */; };
 		E3003E331B3B108500C682FF /* color.csv in Resources */ = {isa = PBXBuildFile; fileRef = E3003E321B3B108500C682FF /* color.csv */; };
 		E3003E351B3B10A400C682FF /* CSVParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3003E341B3B10A400C682FF /* CSVParserTest.swift */; };
 		E3003E371B3B10B000C682FF /* CSVParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3003E361B3B10B000C682FF /* CSVParser.swift */; };
@@ -69,7 +69,7 @@
 /* Begin PBXFileReference section */
 		D0B096AD1B09B38400FB8AE6 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		D0B096AF1B09B96800FB8AE6 /* CodeGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeGenerator.swift; sourceTree = "<group>"; };
-		D0B096B51B09BF9C00FB8AE6 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		D0B096B51B09BF9C00FB8AE6 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		D0C204AA1B0AC41600BFD293 /* sample2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sample2.json; sourceTree = "<group>"; };
 		D0C205181B0ACD4600BFD293 /* ToJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToJSON.swift; sourceTree = "<group>"; };
 		D0C683971B14721700A72107 /* ToCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToCode.swift; sourceTree = "<group>"; };
@@ -177,7 +177,7 @@
 				E30804811B1DF7DF007A95AF /* Help.swift */,
 				D0B096AD1B09B38400FB8AE6 /* Color.swift */,
 				D0B096AF1B09B96800FB8AE6 /* CodeGenerator.swift */,
-				D0B096B51B09BF9C00FB8AE6 /* StringExtension.swift */,
+				D0B096B51B09BF9C00FB8AE6 /* String+Extension.swift */,
 				E3E0DBBA1B36BD430061D562 /* ASEParser.swift */,
 				E375C84A1B39959500BDCFF8 /* CLRParser.swift */,
 				E3003E361B3B10B000C682FF /* CSVParser.swift */,
@@ -274,7 +274,9 @@
 		E3736D5B1B061A18005E01E5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftMigration = 0720;
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "net.cyan-stivy";
 				TargetAttributes = {
 					D0D884A21B15A7B000A08B5B = {
@@ -339,7 +341,7 @@
 			files = (
 				E3E0DBBE1B36BE1B0061D562 /* ASEParserTest.swift in Sources */,
 				E3003E351B3B10A400C682FF /* CSVParserTest.swift in Sources */,
-				D0D884AC1B15A7C400A08B5B /* StringExtension.swift in Sources */,
+				D0D884AC1B15A7C400A08B5B /* String+Extension.swift in Sources */,
 				E3E0DBBC1B36BD430061D562 /* ASEParser.swift in Sources */,
 				E3E0DBBF1B36BF530061D562 /* Color.swift in Sources */,
 				E3003E381B3B10B000C682FF /* CSVParser.swift in Sources */,
@@ -364,7 +366,7 @@
 				D0B096B01B09B96800FB8AE6 /* CodeGenerator.swift in Sources */,
 				D0C205191B0ACD4600BFD293 /* ToJSON.swift in Sources */,
 				E375C84B1B39959500BDCFF8 /* CLRParser.swift in Sources */,
-				D0B096B61B09BF9C00FB8AE6 /* StringExtension.swift in Sources */,
+				D0B096B61B09BF9C00FB8AE6 /* String+Extension.swift in Sources */,
 				E3003E371B3B10B000C682FF /* CSVParser.swift in Sources */,
 				E30804821B1DF7DF007A95AF /* Help.swift in Sources */,
 				E3E0DBBB1B36BD430061D562 /* ASEParser.swift in Sources */,
@@ -393,6 +395,7 @@
 				);
 				INFOPLIST_FILE = clgTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.cyan-stivy.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "clgTest-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -410,6 +413,7 @@
 				);
 				INFOPLIST_FILE = clgTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.cyan-stivy.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "clgTest-Bridging-Header.h";
 			};
@@ -435,6 +439,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
