@@ -115,13 +115,4 @@ class ToCLR: Root {
         //            println(s)
         return s
     }
-
-    func colorSpace -> NSColorSpace {
-        let colorSpace: NSColorSpace
-        if let c = self.colorspace {
-
-        } else {
-            colorSpace = NSColorSpace.sRGBColorSpace()
-        }
-    }
 }
