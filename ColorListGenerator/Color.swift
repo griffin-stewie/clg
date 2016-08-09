@@ -54,7 +54,7 @@ class Color {
             alpha = Color.colorValue(characters[6], characters[7])
         }
 
-        return NSColor(deviceRed: red, green: green, blue: blue, alpha: alpha).colorUsingColorSpace(NSColorSpace.sRGBColorSpace())
+        return NSColor(calibratedRed: red, green: green, blue: blue, alpha: alpha)
     }
 
     class func colorValue(code1: UInt8, _ code2: UInt8) -> CGFloat {
@@ -78,7 +78,7 @@ class Color {
         let g = Color.floatValueFromString(green) ?? 0.0
         let b = Color.floatValueFromString(blue) ?? 0.0
         let a = Color.floatValueFromString(alpha) ?? 1.0
-        return NSColor(deviceRed: r, green: g, blue: b, alpha: a).colorUsingColorSpace(NSColorSpace.sRGBColorSpace())
+        return NSColor(calibratedRed: r, green: g, blue: b, alpha: a)
     }
 
     class func floatValueFromString(value: String?) -> CGFloat? {
