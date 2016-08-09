@@ -20,14 +20,15 @@ enum Code: String {
 
                 let methodName: String
                 if let cName = color.name {
-                    methodName = cName.camelCase().sanitizeAsMethodName() + "Color()"
+                    methodName = cName.camelCase().sanitizeAsMethodName()
                 } else {
                     methodName = "cName" + "Color()"
                 }
 
-                let code = "    class func \(methodName) -> UIColor {\n" +
+                let code =
+                    "    class var \(methodName): UIColor {\n" +
                     "        return UIColor(red: \(Double(color.color!.redComponent)), green: \(Double(color.color!.greenComponent)), blue: \(Double(color.color!.blueComponent)), alpha: \(Double(color.color!.alphaComponent)))\n" +
-                "    }\n\n"
+                    "    }\n\n"
                 return code
             }
 
@@ -36,6 +37,7 @@ enum Code: String {
                          + "\n"
                          + "\n"
                          + "extension UIColor {"
+                         + "\n"
                          + "\n"
                 for c in colors {
                     code += classFunc(c)
