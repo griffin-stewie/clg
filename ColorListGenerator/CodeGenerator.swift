@@ -17,14 +17,7 @@ enum Code: String {
         switch self {
         case .Swift:
             func classFunc(color: Color) -> String {
-
-                let methodName: String
-                if let cName = color.name {
-                    methodName = cName.camelCase().sanitizeAsMethodName()
-                } else {
-                    methodName = "cName" + "Color()"
-                }
-
+                let methodName = color.name.camelCase().sanitizeAsMethodName()
                 let code =
                     "    class var \(methodName): UIColor {\n" +
                     "        return UIColor(red: \(Double(color.color!.redComponent)), green: \(Double(color.color!.greenComponent)), blue: \(Double(color.color!.blueComponent)), alpha: \(Double(color.color!.alphaComponent)))\n" +
