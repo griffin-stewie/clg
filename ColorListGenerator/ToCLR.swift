@@ -81,6 +81,11 @@ class ToCLR: Root {
             }
         }
 
+        colors.forEach { c in
+            let name = "\(c.name) \(c.hexStringRepresentation())"
+            c.name = name
+        }
+
         let colorList = NSColorList(name: paletteName)
 
         for color in colors {
