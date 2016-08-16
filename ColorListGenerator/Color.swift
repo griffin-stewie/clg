@@ -22,7 +22,8 @@ class Color {
 
         if let hex = dictionary["hex"] as? String {
             let trimed = hex.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString:"#"))
-            color = Color.colorFromHexString(trimed)
+            let alpha = dictionary["a"] as? String
+            color = Color.colorFromHexString(trimed, alpha: alpha)
         } else {
             let red = dictionary["r"] as? String
             let green = dictionary["g"] as? String
@@ -39,11 +40,11 @@ class Color {
         }
     }
 
-    class func colorFromHexString(value: String) -> NSColor? {
+    class func colorFromHexString(value: String, alpha: String? = "1.00") -> NSColor? {
         var red: CGFloat = 0.0
         var green: CGFloat = 0.0
         var blue: CGFloat = 0.0
-        var alpha: CGFloat = 1.0
+        var alpha: CGFloat = Color.floatValueFromString(alpha) ?? 1.0
         let characters = Array(value.utf8)
         if 6 <= characters.count {
             red = Color.colorValue(characters[0], characters[1])
