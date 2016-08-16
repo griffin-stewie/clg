@@ -19,6 +19,8 @@ enum Code: String {
             func classFunc(color: Color) -> String {
                 let methodName = color.name.camelCase().sanitizeAsMethodName()
                 let code =
+                    "    /// \(color.name.camelCase().sanitizeAsMethodName()) color (\(color.hexStringRepresentation()))\n" +
+                    "    /// - returns: \(color.hexStringRepresentation())\n" +
                     "    class var \(methodName): UIColor {\n" +
                     "        return UIColor(red: \(Double(color.color!.redComponent)), green: \(Double(color.color!.greenComponent)), blue: \(Double(color.color!.blueComponent)), alpha: \(Double(color.color!.alphaComponent)))\n" +
                     "    }\n\n"
