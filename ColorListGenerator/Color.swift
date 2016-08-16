@@ -11,8 +11,8 @@ import Cocoa
 
 class Color {
 
-    var name: String?
-    var color: NSColor?
+    var name: String!
+    var color: NSColor!
 
     init?(dictionary: NSDictionary) {
         var name: String?
