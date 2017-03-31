@@ -8,8 +8,8 @@
 
 import Foundation
 
-func CSNPrintStandardOutput(string: String, needsProcessName: Bool) {
-    let processName = NSProcessInfo.processInfo().processName
+func CSNPrintStandardOutput(_ string: String, needsProcessName: Bool) {
+    let processName = ProcessInfo.processInfo.processName
     var output = ""
 
     if needsProcessName {
@@ -18,25 +18,25 @@ func CSNPrintStandardOutput(string: String, needsProcessName: Bool) {
         output = "\(string)\n"
     }
 
-    let fileHandle = NSFileHandle.fileHandleWithStandardOutput()
+    let fileHandle = FileHandle.standardOutput
 
-    if let d = output.dataUsingEncoding(NSUTF8StringEncoding) {
-        fileHandle.writeData(d)
+    if let d = output.data(using: String.Encoding.utf8) {
+        fileHandle.write(d)
     }
 }
 
-func CSNPrintStandardOutput(strings: String...) {
+func CSNPrintStandardOutput(_ strings: String...) {
     var concat = ""
     for str in strings {
-        concat.appendContentsOf(str)
+        concat.append(str)
     }
     CSNPrintStandardOutput(concat, needsProcessName:false)
 }
 
-func CSNDebugPrintStandardOutput(strings: String...) {
+func CSNDebugPrintStandardOutput(_ strings: String...) {
     var concat = ""
     for str in strings {
-        concat.appendContentsOf(str)
+        concat.append(str)
     }
 
 #if DEBUG
@@ -44,8 +44,8 @@ func CSNDebugPrintStandardOutput(strings: String...) {
 #endif
 }
 
-func CSNPrintStandardError(string: String, needsProcessName: Bool) {
-    let processName = NSProcessInfo.processInfo().processName
+func CSNPrintStandardError(_ string: String, needsProcessName: Bool) {
+    let processName = ProcessInfo.processInfo.processName
     var output = ""
 
     if needsProcessName {
@@ -53,17 +53,17 @@ func CSNPrintStandardError(string: String, needsProcessName: Bool) {
     } else {
         output = "\(string)\n"
     }
-    let fileHandle = NSFileHandle.fileHandleWithStandardError()
+    let fileHandle = FileHandle.standardError
 
-    if let d = output.dataUsingEncoding(NSUTF8StringEncoding) {
-        fileHandle.writeData(d)
+    if let d = output.data(using: String.Encoding.utf8) {
+        fileHandle.write(d)
     }
 }
 
-func CSNPrintStandardError(strings: String...) {
+func CSNPrintStandardError(_ strings: String...) {
     var concat = ""
     for str in strings {
-        concat.appendContentsOf(str)
+        concat.append(str)
     }
     CSNPrintStandardError(concat, needsProcessName:false)
 }

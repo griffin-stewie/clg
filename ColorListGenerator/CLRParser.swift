@@ -10,11 +10,11 @@ import Foundation
 import Cocoa
 
 struct CLRParser {
-    func parse(colorList colorList: NSColorList) -> [[String : String]]? {
+    func parse(colorList: NSColorList) -> [[String : String]]? {
         var dicts = [[String : String]]()
 
         for key in colorList.allKeys {
-            if let color = colorList.colorWithKey(key) {
+            if let color = colorList.color(withKey: key) {
                 var colorDict = [String : String]()
                 colorDict["name"] = key
                 colorDict["r"] = NSString(format: "%f", Double(color.redComponent)) as String
