@@ -50,13 +50,13 @@ CSV file format should be like below
 generates Swift code, Objective-C code, colors.xml from JSON
 
 ```sh
-clg code --output MyColor.swift --code swift sample.json
+clg code --output ~/somewhere/ --code swift sample.json
 ```
 
 #### Options
 
 - `--output`, `-o`
-    - path for output
+    - directory path for output
 - `--code`, `-c`
     - generate specific type of code file
         - `swift`
