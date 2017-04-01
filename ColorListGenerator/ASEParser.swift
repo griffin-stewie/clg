@@ -131,16 +131,16 @@ struct ASEParser {
         case BT_COLOR_ENTRY:
             let nameLength: UInt16 = (fileHandle.readData(ofLength: 2) as NSData).bigEndianUInt16()
             let nameData: Data = fileHandle.readData(ofLength: Int(nameLength * 2))
-            var name = NSString(data: nameData, encoding: String.Encoding.utf16BigEndian.rawValue)
+            var name = String(data: nameData, encoding: String.Encoding.utf16BigEndian)
             let colorModelData: Data = fileHandle.readData(ofLength: 4)
-            if let colorModel = NSString(data: colorModelData, encoding: String.Encoding.ascii.rawValue) {
+            if let colorModel = String(data: colorModelData, encoding: .ascii) {
                 let color = colorFromModel(colorModel, fileHandle: fileHandle)
                 _ = (fileHandle.readData(ofLength: 2) as NSData).bigEndianUInt16()
 
                 if name == nil || name == "\0" {
                     let convertedColor = color.usingColorSpaceName(NSDeviceRGBColorSpace)!;
 
-                    let hexString = NSString(format: "#%02X%02X%02X"
+                    let hexString = String(format: "#%02X%02X%02X"
                         , Int(convertedColor.redComponent * 0xFF)
                         , Int(convertedColor.greenComponent * 0xFF)
                         , Int(convertedColor.blueComponent * 0xFF));
@@ -148,20 +148,20 @@ struct ASEParser {
                 } else {
                     let set = NSMutableCharacterSet.control()
                     set.formUnion(with: CharacterSet.whitespacesAndNewlines)
-                    name = name?.trimmingCharacters(in: set as CharacterSet) as! NSString
+                    name = name?.trimmingCharacters(in: set as CharacterSet)
                 }
 
                 var i :NSInteger = 1;
-                var fixedName :NSString = name!;
+                var fixedName :String = name!;
                 while (self.colorList.color(withKey: fixedName as String) != nil) {
                     i += i
-                    let s = NSString(format: " %ld", i)
-                    fixedName = name!.appending(s as String) as NSString
+                    let s = String(format: " %ld", i)
+                    fixedName = name!.appending(s)
                 }
 
                 name = fixedName;
 
-                self.colorList.setColor(color, forKey: name as! String)
+                self.colorList.setColor(color, forKey: name!)
             }
 
         default:
@@ -169,7 +169,7 @@ struct ASEParser {
         }
     }
 
-    func colorFromModel(_ colorModel: NSString, fileHandle: FileHandle) -> NSColor {
+    func colorFromModel(_ colorModel: String, fileHandle: FileHandle) -> NSColor {
         switch colorModel {
         case "RGB ":
             let red :CGFloat = CGFloat((fileHandle.readData(ofLength: 4) as NSData).bigEndianFloat32())

@@ -87,7 +87,11 @@ class Color {
             if let integer = Int(string) {
                 return CGFloat(integer) / 255.0
             } else {
-                return CGFloat((string as NSString).doubleValue)
+                if let double = Double(string) {
+                    return CGFloat(double)
+                } else {
+                    return nil
+                }
             }
         }
         return nil
@@ -102,7 +106,7 @@ class Color {
         let hex = toInt(x.redComponent) * 0x10000
             + toInt(x.greenComponent) * 0x100
             + toInt(x.blueComponent)
-        let hexString = NSString(format: "%06x", hex).uppercased as String
+        let hexString = String(format: "%06x", hex).uppercased()
         if needsHashMark {
             return "#" + hexString
 

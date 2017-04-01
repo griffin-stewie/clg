@@ -17,10 +17,10 @@ struct CLRParser {
             if let color = colorList.color(withKey: key) {
                 var colorDict = [String : String]()
                 colorDict["name"] = key
-                colorDict["r"] = NSString(format: "%f", Double(color.redComponent)) as String
-                colorDict["g"] = NSString(format: "%f", Double(color.greenComponent)) as String
-                colorDict["b"] = NSString(format: "%f", Double(color.blueComponent)) as String
-                colorDict["a"] = NSString(format: "%f", Double(color.alphaComponent)) as String
+                colorDict["r"] = String(format: "%f", Double(color.redComponent))
+                colorDict["g"] = String(format: "%f", Double(color.greenComponent))
+                colorDict["b"] = String(format: "%f", Double(color.blueComponent))
+                colorDict["a"] = String(format: "%f", Double(color.alphaComponent))
                 dicts.append(colorDict)
             }
         }

@@ -31,11 +31,14 @@ struct CSVParser {
         if compos.count != 4 {
             return nil
         }
+        guard let r = Double(compos[1]), let g = Double(compos[2]), let b = Double(compos[3]) else {
+            return nil
+        }
 
         let name = compos[0]
-        let red = CGFloat((compos[1] as NSString).doubleValue)
-        let green = CGFloat((compos[2] as NSString).doubleValue)
-        let blue = CGFloat((compos[3] as NSString).doubleValue)
+        let red = CGFloat(r)
+        let green = CGFloat(g)
+        let blue = CGFloat(b)
 
         let color = NSColor(srgbRed: red, green: green, blue: blue, alpha: 1.0)
 
