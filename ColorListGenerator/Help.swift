@@ -10,11 +10,11 @@ import Cocoa
 import Foundation
 
 class Help: Root {
-    override func commandForCommandName(commandName: String) -> CSNCommand? {
+    override func forCommandName(_ commandName: String) -> CSNCommand? {
         return nil
     }
 
-    override func runWithArguments(args: [AnyObject]) -> Int32 {
+    override func run(withArguments args: [Any]) -> Int32 {
         CSNPrintStandardOutput(
             "Usage:\n",
             "\n",

@@ -10,7 +10,7 @@ import Foundation
 import Cocoa
 
 struct CSVParser {
-    func parse(CSVText: String) -> NSColorList? {
+    func parse(_ CSVText: String) -> NSColorList? {
         let colorList :NSColorList = NSColorList(name: "x")
         CSVText.enumerateLines { (line, stop) -> () in
             if let taple = self.parseLine(line) {
@@ -26,18 +26,21 @@ struct CSVParser {
     }
 
 
-    func parseLine(text: String) -> (color :NSColor, name :String)? {
-        let compos = text.componentsSeparatedByString(",")
+    func parseLine(_ text: String) -> (color :NSColor, name :String)? {
+        let compos = text.components(separatedBy: ",")
         if compos.count != 4 {
+            return nil
+        }
+        guard let r = Double(compos[1]), let g = Double(compos[2]), let b = Double(compos[3]) else {
             return nil
         }
 
         let name = compos[0]
-        let red = CGFloat((compos[1] as NSString).doubleValue)
-        let green = CGFloat((compos[2] as NSString).doubleValue)
-        let blue = CGFloat((compos[3] as NSString).doubleValue)
+        let red = CGFloat(r)
+        let green = CGFloat(g)
+        let blue = CGFloat(b)
 
-        let color = NSColor(SRGBRed: red, green: green, blue: blue, alpha: 1.0)
+        let color = NSColor(srgbRed: red, green: green, blue: blue, alpha: 1.0)
 
 
         return (color, name)

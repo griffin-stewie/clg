@@ -14,15 +14,15 @@ class ToJSON: Root {
 
     override func commandOption() -> CSNCommandOption? {
         let option = CSNCommandOption()
-        option.registerOption("output", shortcut: "o", keyName:nil , requirement: CSNCommandOptionRequirement.Required)
+        option.register("output", shortcut: "o", keyName:nil , requirement: CSNCommandOptionRequirement.required)
         return option
     }
 
-    override func commandForCommandName(commandName: String) -> CSNCommand? {
+    override func forCommandName(_ commandName: String) -> CSNCommand? {
         return nil
     }
 
-    override func runWithArguments(args: [AnyObject]) -> Int32 {
+    override func run(withArguments args: [Any]) -> Int32 {
         let args = args.filter{v in
             if v is String {
                 return true
@@ -54,8 +54,8 @@ class ToJSON: Root {
 
             let fileType = FileDetector().detectFileType(inputPath)
             switch fileType {
-            case .CLR:
-                if let colorList = NSColorList(name: "x", fromFile: (inputPath as NSString).stringByExpandingTildeInPath) {
+            case .clr:
+                if let colorList = NSColorList(name: "x", fromFile: (inputPath as NSString).expandingTildeInPath) {
                     if writeJSONFromColorList(colorList, outputPath: outputPath) {
                         return EXIT_SUCCESS
                     } else {
@@ -64,7 +64,7 @@ class ToJSON: Root {
                 } else {
                     return EXIT_FAILURE
                 }
-            case .ASE:
+            case .ase:
                 if let colorList = ASEParser().parse(inputPath) {
                     if writeJSONFromColorList(colorList, outputPath: outputPath) {
                         return EXIT_SUCCESS
@@ -74,9 +74,9 @@ class ToJSON: Root {
                 } else {
                     return EXIT_FAILURE
                 }
-            case .CSV:
-                let fileURL = NSURL(fileURLWithPath: inputPath)
-                if let text = (try? NSString(contentsOfURL:fileURL , encoding: NSUTF8StringEncoding)) as? String {
+            case .csv:
+                let fileURL = URL(fileURLWithPath: inputPath)
+                if let text = (try? NSString(contentsOf:fileURL , encoding: String.Encoding.utf8.rawValue)) as? String {
                     if let colorList = CSVParser().parse(text) {
                         if writeJSONFromColorList(colorList, outputPath: outputPath) {
                             return EXIT_SUCCESS
@@ -98,11 +98,11 @@ class ToJSON: Root {
         }
     }
 
-    func writeJSONFromColorList(colorList :NSColorList, outputPath :String) -> Bool {
+    func writeJSONFromColorList(_ colorList :NSColorList, outputPath :String) -> Bool {
         if let dicts = CLRParser().parse(colorList: colorList) {
-            if let jsonData = try? NSJSONSerialization.dataWithJSONObject(dicts, options: NSJSONWritingOptions.PrettyPrinted) {
-                let filePath = (outputPath as NSString).stringByExpandingTildeInPath
-                if jsonData.writeToFile(filePath, atomically: true) {
+            if let jsonData = try? JSONSerialization.data(withJSONObject: dicts, options: JSONSerialization.WritingOptions.prettyPrinted) {
+                let filePath = (outputPath as NSString).expandingTildeInPath
+                if (try? jsonData.write(to: URL(fileURLWithPath: filePath), options: [.atomic])) != nil {
                     print("SUCCESS: saved to \(filePath)")
                 } else {
                     print("FAILED: failed to save to \(filePath)")
@@ -116,10 +116,10 @@ class ToJSON: Root {
         }
     }
 
-    func palletteNameFromPath(path: String) -> String {
-        let str = NSURL(fileURLWithPath: path).absoluteString
+    func palletteNameFromPath(_ path: String) -> String {
+        let str = URL(fileURLWithPath: path).absoluteString
         let ext = (str as NSString).pathExtension
-        let s = (str as NSString).lastPathComponent.stringByReplacingOccurrencesOfString("." + ext, withString: "", options: [], range: nil)
+        let s = (str as NSString).lastPathComponent.replacingOccurrences(of: "." + ext, with: "", options: [], range: nil)
         //            println(s)
         return s
     }

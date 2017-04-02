@@ -18,12 +18,12 @@ class Root: NSObject, CSNCommand {
 
     func commandOption() -> CSNCommandOption? {
         let option = CSNCommandOption()
-        option.registerOption("version", shortcut: "v", keyName:nil , requirement: CSNCommandOptionRequirement.None)
-        option.registerOption("help", shortcut: "h", keyName:nil , requirement: CSNCommandOptionRequirement.None)
+        option.register("version", shortcut: "v", keyName:nil , requirement: CSNCommandOptionRequirement.none)
+        option.register("help", shortcut: "h", keyName:nil , requirement: CSNCommandOptionRequirement.none)
         return option
     }
 
-    func commandForCommandName(commandName: String) -> CSNCommand? {
+    func forCommandName(_ commandName: String) -> CSNCommand? {
         switch commandName {
         case "clr":
             return ToCLR()
@@ -35,16 +35,16 @@ class Root: NSObject, CSNCommand {
             return nil;
         }
     }
-
-    func runWithArguments(args: [AnyObject]) -> Int32 {
+    
+    func run(withArguments args: [Any]) -> Int32 {
         if let shouldShowVersion = self.version {
             if shouldShowVersion.boolValue {
                 CSNPrintStandardOutput(kAppVersion)
                 return EXIT_SUCCESS
             }
         }
-
+        
         let h = Help()
-        return h.runWithArguments(args)
+        return h.run(withArguments: args)
     }
 }

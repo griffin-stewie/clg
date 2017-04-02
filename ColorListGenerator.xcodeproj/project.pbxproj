@@ -284,6 +284,7 @@
 					};
 					E3736D621B061A18005E01E5 = {
 						CreatedOnToolsVersion = 6.3.1;
+						LastSwiftMigration = 0830;
 					};
 				};
 			};
@@ -504,6 +505,7 @@
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_NAME = clg;
 				SWIFT_OBJC_BRIDGING_HEADER = "clg-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -512,6 +514,7 @@
 			buildSettings = {
 				PRODUCT_NAME = clg;
 				SWIFT_OBJC_BRIDGING_HEADER = "clg-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

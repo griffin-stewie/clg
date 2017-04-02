@@ -17,16 +17,16 @@ class ToCLR: Root {
 
     override func commandOption() -> CSNCommandOption? {
         let option = CSNCommandOption()
-        option.registerOption("output", shortcut: "o", keyName:nil , requirement: CSNCommandOptionRequirement.Required)
-        option.registerOption("colorspace", shortcut: "c", keyName:nil , requirement: CSNCommandOptionRequirement.Optional)
+        option.register("output", shortcut: "o", keyName:nil , requirement: CSNCommandOptionRequirement.required)
+        option.register("colorspace", shortcut: "c", keyName:nil , requirement: CSNCommandOptionRequirement.optional)
         return option
     }
 
-    override func commandForCommandName(commandName: String) -> CSNCommand? {
+    override func forCommandName(_ commandName: String) -> CSNCommand? {
         return nil
     }
 
-    override func runWithArguments(args: [AnyObject]) -> Int32 {
+    override func run(withArguments args: [Any]) -> Int32 {
         if let shouldShowHelp = self.help {
             if shouldShowHelp.boolValue {
                 CSNPrintStandardOutput("help for clr subcommand")
@@ -44,11 +44,11 @@ class ToCLR: Root {
 
 //        println(args)
 //        println(self.output);
-        var jsonData: NSData!
+        var jsonData: Data!
         if let inputPath: String = args[0] as? String {
             self.paletteName = palletteNameFromPath(inputPath)
 
-            jsonData = NSData(contentsOfFile: inputPath)
+            jsonData = try? Data(contentsOf: URL(fileURLWithPath: inputPath))
             if nil == jsonData {
                 CSNPrintStandardError("\(inputPath) was not found.")
                 exit(-1)
@@ -62,7 +62,7 @@ class ToCLR: Root {
             paletteName = "clrgen"
         }
 
-        let colorDicts: NSArray! = try! NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.AllowFragments) as? NSArray
+        let colorDicts: NSArray! = try! JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? NSArray
 
         if nil == colorDicts {
             CSNPrintStandardError("Error: Color list JSON is nil")
@@ -102,9 +102,9 @@ class ToCLR: Root {
             outputPath = "~/Library/Colors/\(paletteName).clr"
         }
 
-        let filePath = (outputPath as NSString).stringByExpandingTildeInPath
+        let filePath = (outputPath as NSString).expandingTildeInPath
 
-        if colorList.writeToFile(filePath) {
+        if colorList.write(toFile: filePath) {
             CSNPrintStandardOutput("SUCCESS: saved to \(filePath)")
         } else {
             CSNPrintStandardOutput("FAILED: failed to save to \(filePath)")
@@ -113,10 +113,10 @@ class ToCLR: Root {
         return EXIT_SUCCESS
     }
 
-    func palletteNameFromPath(path: String) -> String {
-        let str = NSURL(fileURLWithPath: path).absoluteString
+    func palletteNameFromPath(_ path: String) -> String {
+        let str = URL(fileURLWithPath: path).absoluteString
         let ext = (str as NSString).pathExtension
-        let s = (str as NSString).lastPathComponent.stringByReplacingOccurrencesOfString("." + ext, withString: "", options: [], range: nil)
+        let s = (str as NSString).lastPathComponent.replacingOccurrences(of: "." + ext, with: "", options: [], range: nil)
         //            println(s)
         return s
     }
