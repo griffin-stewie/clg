@@ -9,6 +9,11 @@
 import Foundation
 import Cocoa
 
+enum ColorSpace {
+    case rgb
+    case argb
+}
+
 class Color {
 
     var name: String!
@@ -97,16 +102,30 @@ class Color {
         return nil
     }
 
-    func hexStringRepresentation(_ needsHashMark: Bool = true) -> String {
+    func hexStringRepresentation(_ needsHashMark: Bool = true, colorSpace: ColorSpace = .rgb) -> String {
         let x = self.color!
         func toInt(_ component: CGFloat) -> Int {
             return Int(component * 255.0)
         }
 
-        let hex = toInt(x.redComponent) * 0x10000
-            + toInt(x.greenComponent) * 0x100
-            + toInt(x.blueComponent)
-        let hexString = String(format: "%06x", hex).uppercased()
+        let alpha = toInt(color.alphaComponent)
+        
+        let hexString: String
+        switch (colorSpace, alpha) {
+        case (.rgb, _), (.argb, 255):
+            let hex = toInt(x.redComponent) * 0x10000
+                + toInt(x.greenComponent) * 0x100
+                + toInt(x.blueComponent)
+            hexString = String(format: "%06x", hex).uppercased()
+            break
+        case (.argb, _):
+            let hex = toInt(x.alphaComponent) * 0x1000000
+                + toInt(x.redComponent) * 0x10000
+                + toInt(x.greenComponent) * 0x100
+                + toInt(x.blueComponent)
+            hexString = String(format: "%08x", hex).uppercased()
+            break
+        }
         if needsHashMark {
             return "#" + hexString
 
