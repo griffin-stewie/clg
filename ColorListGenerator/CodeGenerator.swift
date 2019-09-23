@@ -13,16 +13,16 @@ enum Code: String {
     case ObjC = "objc"
     case Android = "android"
 
-    func generateCode(colors: [Color], directory: String) {
+    func generateCode(_ colors: [Color], directory: String) {
         switch self {
         case .Swift:
-            func classFunc(color: Color) -> String {
+            func classFunc(_ color: Color) -> String {
 
                 let methodName: String
                 if let cName = color.name {
-                    methodName = cName.camelCase().sanitizeAsMethodName() + "Color()"
+                    methodName = cName.camelCase().sanitizeAsMethodName() + "()"
                 } else {
-                    methodName = "cName" + "Color()"
+                    methodName = "cName" + "()"
                 }
 
                 let code = "    class func \(methodName) -> UIColor {\n" +
@@ -31,7 +31,7 @@ enum Code: String {
                 return code
             }
 
-            func generateSwiftFile(colors: [Color], directory: String) {
+            func generateSwiftFile(_ colors: [Color], directory: String) {
                 var code = "import UIKit"
                          + "\n"
                          + "\n"
@@ -45,10 +45,10 @@ enum Code: String {
 
                 var e: NSError? = nil
 
-                if let path = NSURL(fileURLWithPath:((directory as NSString).stringByAppendingPathComponent("AppColors.swift") as NSString).stringByStandardizingPath).path {
+                if let path = URL(fileURLWithPath: directory.appending(pathComponent: "AppColors.swift").standardizingPath()).path as? String {
                     let result: Bool
                     do {
-                        try code.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding)
+                        try code.write(toFile: path, atomically: true, encoding: String.Encoding.utf8)
                         result = true
                     } catch let error as NSError {
                         e = error
@@ -69,7 +69,7 @@ enum Code: String {
             generateSwiftFile(colors, directory: directory)
 
         case .ObjC:
-            func classMethodInterface(color: Color) -> String {
+            func classMethodInterface(_ color: Color) -> String {
 
                 let methodName: String
                 if let cName = color.name {
@@ -83,7 +83,7 @@ enum Code: String {
                 return code
             }
 
-            func classMethodImplementation(color: Color) -> String {
+            func classMethodImplementation(_ color: Color) -> String {
 
                 let methodName: String
                 if let cName = color.name {
@@ -99,7 +99,7 @@ enum Code: String {
                 return code
             }
 
-            func generateObjCHeaderFile(colors: [Color], fileName: String) {
+            func generateObjCHeaderFile(_ colors: [Color], fileName: String) {
                 var code = "@import UIKit;"
                     + "\n"
                     + "\n"
@@ -115,13 +115,13 @@ enum Code: String {
 
                 var e: NSError? = nil
 
-                let filePath = ((directory as NSString).stringByAppendingPathComponent("UIColor+CLRGeneratedAdditions.h") as NSString).stringByStandardizingPath
-                if let path = NSURL(fileURLWithPath:filePath).path {
+                let filePath = ((directory as NSString).appendingPathComponent("UIColor+CLRGeneratedAdditions.h") as NSString).standardizingPath
+                if let path = URL(fileURLWithPath:filePath).path as? String {
                     let result: Bool
                     do {
-                        try code.writeToFile(path,
+                        try code.write(toFile: path,
                                                 atomically: true,
-                                                encoding: NSUTF8StringEncoding)
+                                                encoding: String.Encoding.utf8)
                         result = true
                     } catch let error as NSError {
                         e = error
@@ -139,7 +139,7 @@ enum Code: String {
                 }
             }
 
-            func generateObjCImplementationFile(colors: [Color], fileName: String) {
+            func generateObjCImplementationFile(_ colors: [Color], fileName: String) {
                 let headerFileName = "UIColor+CLRGeneratedAdditions.h"
                 var code = "#import \"\(headerFileName)\""
                          + "\n"
@@ -155,11 +155,11 @@ enum Code: String {
                 code += "@end"
 
                 var e: NSError? = nil
-                let filePath = ((directory as NSString).stringByAppendingPathComponent("UIColor+CLRGeneratedAdditions.m") as NSString).stringByStandardizingPath
-                if let path = NSURL(fileURLWithPath:filePath).path {
+                let filePath = ((directory as NSString).appendingPathComponent("UIColor+CLRGeneratedAdditions.m") as NSString).standardizingPath
+                if let path = URL(fileURLWithPath:filePath).path as? String {
                     let result: Bool
                     do {
-                        try code.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding)
+                        try code.write(toFile: path, atomically: true, encoding: String.Encoding.utf8)
                         result = true
                     } catch let error as NSError {
                         e = error
@@ -182,7 +182,7 @@ enum Code: String {
             generateObjCImplementationFile(colors, fileName: directory)
 
         case .Android:
-            func colorElement(color: Color) -> String {
+            func colorElement(_ color: Color) -> String {
                 let name: String
                 if let cName = color.name {
                     name = cName.snakeCase().sanitizeAsMethodName()
@@ -192,12 +192,13 @@ enum Code: String {
                 return "    <color name=\"\(name)\">\(color.hexStringRepresentation())</color>\n"
             }
 
-            func generateColorXMLFile(colors: [Color], fileName: String) {
-                var code = "<!-- Palette generated by clg -->"
-                    + "\n"
-                    + "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+            func generateColorXMLFile(_ colors: [Color], fileName: String) {
+                var code = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                     + "\n"
                     + "<resources>"
+                    + "\n"
+                    + "    <!-- Palette generated by clg -->"
+                    + "\n"
                     + "\n"
 
                 for c in colors {
@@ -207,11 +208,11 @@ enum Code: String {
                 code += "</resources>"
 
                 var e: NSError? = nil
-                let filePath = ((directory as NSString).stringByAppendingPathComponent("colors.xml") as NSString).stringByStandardizingPath
-                if let path = NSURL(fileURLWithPath:filePath).path {
+                let filePath = ((directory as NSString).appendingPathComponent("colors.xml") as NSString).standardizingPath
+                if let path = URL(fileURLWithPath:filePath).path as? String {
                     let result: Bool
                     do {
-                        try code.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding)
+                        try code.write(toFile: path, atomically: true, encoding: String.Encoding.utf8)
                         result = true
                     } catch let error as NSError {
                         e = error
