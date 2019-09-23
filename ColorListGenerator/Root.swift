@@ -13,8 +13,8 @@ class Root: NSObject, CSNCommand {
 
     @objc var executePath: String?
     var arguments: [String]?
-    var version: NSNumber?
-    var help: NSNumber?
+    @objc var version: NSNumber?
+    @objc var help: NSNumber?
 
     func commandOption() -> CSNCommandOption? {
         let option = CSNCommandOption()

@@ -9,7 +9,7 @@
 import Cocoa
 
 class ToJSON: Root {
-    var output: String?
+    @objc var output: String?
     var paletteName: String?
 
     override func commandOption() -> CSNCommandOption? {

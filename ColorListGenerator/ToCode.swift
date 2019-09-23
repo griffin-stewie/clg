@@ -10,8 +10,8 @@ import Cocoa
 import Foundation
 
 class ToCode: Root {
-    var output: String?
-    var code: String?
+    @objc var output: String?
+    @objc var code: String?
     var paletteName: String?
 
     override func commandOption() -> CSNCommandOption? {

@@ -10,8 +10,8 @@ import Cocoa
 import Foundation
 
 class ToCLR: Root {
-    var output: String?
-    var colorspace: String?
+    @objc var output: String?
+    @objc var colorspace: String?
     var code: String?
     var paletteName: String?
 
