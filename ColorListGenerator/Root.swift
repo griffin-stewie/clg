@@ -11,19 +11,19 @@ import Foundation
 
 class Root: NSObject, CSNCommand {
 
-    var executePath: String?
+    @objc var executePath: String?
     var arguments: [String]?
-    var version: NSNumber?
-    var help: NSNumber?
+    @objc var version: NSNumber?
+    @objc var help: NSNumber?
 
     func commandOption() -> CSNCommandOption? {
         let option = CSNCommandOption()
-        option.registerOption("version", shortcut: "v", keyName:nil , requirement: CSNCommandOptionRequirement.None)
-        option.registerOption("help", shortcut: "h", keyName:nil , requirement: CSNCommandOptionRequirement.None)
+        option.register("version", shortcut: "v", keyName:nil , requirement: CSNCommandOptionRequirement.none)
+        option.register("help", shortcut: "h", keyName:nil , requirement: CSNCommandOptionRequirement.none)
         return option
     }
 
-    func commandForCommandName(commandName: String) -> CSNCommand? {
+    func forCommandName(_ commandName: String) -> CSNCommand? {
         switch commandName {
         case "clr":
             return ToCLR()
@@ -36,7 +36,7 @@ class Root: NSObject, CSNCommand {
         }
     }
 
-    func runWithArguments(args: [AnyObject]) -> Int32 {
+    func run(withArguments args: [Any]) -> Int32 {
         if let shouldShowVersion = self.version {
             if shouldShowVersion.boolValue {
                 CSNPrintStandardOutput(kAppVersion)
@@ -45,6 +45,6 @@ class Root: NSObject, CSNCommand {
         }
 
         let h = Help()
-        return h.runWithArguments(args)
+        return h.run(withArguments: args)
     }
 }

@@ -10,43 +10,43 @@ import Foundation
 import Cocoa
 
 enum FileType {
-    case Unknown;
-    case CLR;
-    case JSON;
-    case ASE;
-    case CSV;
+    case unknown;
+    case clr;
+    case json;
+    case ase;
+    case csv;
 }
 
 struct FileDetector {
-    func detectFileType (a: NSData) -> FileType {
-        return .Unknown
+    func detectFileType (_ a: Data) -> FileType {
+        return .unknown
     }
 
-    func detectFileType (a: String) -> FileType {
-        let URL = NSURL(fileURLWithPath: a)
+    func detectFileType (_ a: String) -> FileType {
+        let URL = Foundation.URL(fileURLWithPath: a)
         return detectFileType(URL)
     }
 
-    func detectFileType (a: NSURL) -> FileType {
+    func detectFileType (_ a: URL) -> FileType {
         let str = a.absoluteString
-        let ext = (str as NSString).pathExtension.lowercaseString
+        let ext = (str as NSString).pathExtension.lowercased()
         switch ext {
         case "clr":
-            return .CLR
+            return .clr
         case "ase":
-            return .ASE
+            return .ase
         case "json":
-            return .JSON
+            return .json
         case "csv":
-            return .CSV
+            return .csv
         case "txt":
-            return .CSV
+            return .csv
         default:
-            return .Unknown
+            return .unknown
         }
     }
 
-    func detectFileType (a: NSColorList) -> FileType {
-        return .CLR
+    func detectFileType (_ a: NSColorList) -> FileType {
+        return .clr
     }
 }

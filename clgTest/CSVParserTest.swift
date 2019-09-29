@@ -23,20 +23,20 @@ class CSVParserTest: XCTestCase {
 
     func testExample() {
 
-        let path = NSBundle(forClass: self.dynamicType).pathForResource("color", ofType: "csv")
+        let path = Bundle(for: type(of: self)).path(forResource: "color", ofType: "csv")
         XCTAssertNotNil(path, "");
 
         if let path = path {
-            let fileURL = NSURL(fileURLWithPath: path)
-            let text = try! NSString(contentsOfURL:fileURL , encoding: NSUTF8StringEncoding) as String
+            let fileURL = URL(fileURLWithPath: path)
+            let text = try! String(contentsOf:fileURL , encoding: String.Encoding.utf8) as String
 
             let results = CSVParser().parse(text)
             XCTAssertNotNil(results, "should not be nil")
             if let colorList = results {
-                XCTAssertNotNil(colorList.colorWithKey("Accent"), "there is no color 'Accent'")
-                XCTAssertNotNil(colorList.colorWithKey("Background"), "there is no color 'Background'")
-                XCTAssertNotNil(colorList.colorWithKey("Secondary"), "there is no color 'Secondary'")
-                XCTAssertNotNil(colorList.colorWithKey("Theme"), "there is no color 'Theme'")
+                XCTAssertNotNil(colorList.color(withKey: "Accent"), "there is no color 'Accent'")
+                XCTAssertNotNil(colorList.color(withKey: "Background"), "there is no color 'Background'")
+                XCTAssertNotNil(colorList.color(withKey: "Secondary"), "there is no color 'Secondary'")
+                XCTAssertNotNil(colorList.color(withKey: "Theme"), "there is no color 'Theme'")
             }
         } else {
             XCTAssert(false, "cannot get file URL")

@@ -284,6 +284,7 @@
 					};
 					E3736D621B061A18005E01E5 = {
 						CreatedOnToolsVersion = 6.3.1;
+						LastSwiftMigration = 1100;
 					};
 				};
 			};
@@ -292,6 +293,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = E3736D5A1B061A18005E01E5;
@@ -399,6 +401,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "clgTest-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -416,6 +419,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.cyan-stivy.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "clgTest-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -504,6 +508,8 @@
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_NAME = clg;
 				SWIFT_OBJC_BRIDGING_HEADER = "clg-Bridging-Header.h";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -512,6 +518,8 @@
 			buildSettings = {
 				PRODUCT_NAME = clg;
 				SWIFT_OBJC_BRIDGING_HEADER = "clg-Bridging-Header.h";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

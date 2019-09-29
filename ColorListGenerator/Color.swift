@@ -21,7 +21,7 @@ class Color {
         name = dictionary["name"] as? String
 
         if let hex = dictionary["hex"] as? String {
-            let trimed = hex.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString:"#"))
+            let trimed = hex.trimmingCharacters(in: CharacterSet(charactersIn:"#"))
             color = Color.colorFromHexString(trimed)
         } else {
             let red = dictionary["r"] as? String
@@ -39,7 +39,7 @@ class Color {
         }
     }
 
-    class func colorFromHexString(value: String) -> NSColor? {
+    class func colorFromHexString(_ value: String) -> NSColor? {
         var red: CGFloat = 0.0
         var green: CGFloat = 0.0
         var blue: CGFloat = 0.0
@@ -57,14 +57,14 @@ class Color {
         return NSColor(calibratedRed: red, green: green, blue: blue, alpha: alpha)
     }
 
-    class func colorValue(code1: UInt8, _ code2: UInt8) -> CGFloat {
+    class func colorValue(_ code1: UInt8, _ code2: UInt8) -> CGFloat {
         let k1 = Color.floatValueForCharacter(code1)
         let k2 = Color.floatValueForCharacter(code2)
         let value: CGFloat = CGFloat(k1) * 16.0 + CGFloat(k2)
         return CGFloat(value / 255.0)
     }
 
-    class func floatValueForCharacter(code: UInt8) -> Int {
+    class func floatValueForCharacter(_ code: UInt8) -> Int {
         switch code {
         case Array("0".utf8)[0]...Array("9".utf8)[0]: return Int(code - Array("0".utf8)[0])
         case Array("a".utf8)[0]...Array("z".utf8)[0]: return Int((code - Array("a".utf8)[0]) + 10)
@@ -73,7 +73,7 @@ class Color {
         }
     }
 
-    class func colorFromStrings(red red: String?, green: String?, blue: String?, alpha: String?) -> NSColor? {
+    class func colorFromStrings(red: String?, green: String?, blue: String?, alpha: String?) -> NSColor? {
         let r = Color.floatValueFromString(red) ?? 0.0
         let g = Color.floatValueFromString(green) ?? 0.0
         let b = Color.floatValueFromString(blue) ?? 0.0
@@ -81,7 +81,7 @@ class Color {
         return NSColor(calibratedRed: r, green: g, blue: b, alpha: a)
     }
 
-    class func floatValueFromString(value: String?) -> CGFloat? {
+    class func floatValueFromString(_ value: String?) -> CGFloat? {
         if let string = value {
             if let integer = Int(string) {
                 return CGFloat(integer) / 255.0
@@ -92,16 +92,16 @@ class Color {
         return nil
     }
 
-    func hexStringRepresentation(needsHashMark: Bool = true) -> String {
+    func hexStringRepresentation(_ needsHashMark: Bool = true) -> String {
         let x = self.color!
-        func toInt(component: CGFloat) -> Int {
+        func toInt(_ component: CGFloat) -> Int {
             return Int(component * 255.0)
         }
 
         let hex = toInt(x.redComponent) * 0x10000
             + toInt(x.greenComponent) * 0x100
             + toInt(x.blueComponent)
-        let hexString = NSString(format: "%06x", hex).uppercaseString as String
+        let hexString = NSString(format: "%06x", hex).uppercased as String
         if needsHashMark {
             return "#" + hexString
 

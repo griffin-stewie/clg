@@ -22,7 +22,7 @@ class ASEParserTest: XCTestCase {
     }
 
     func testExample() {
-        let path = NSBundle(forClass: self.dynamicType).pathForResource("Material Palette", ofType: "ase")
+        let path = Bundle(for: type(of: self)).path(forResource: "Material Palette", ofType: "ase")
         XCTAssertNotNil(path, "");
         let results = ASEParser().parse(path!)
         XCTAssertNotNil(results, "should not be nil")
