@@ -10,51 +10,59 @@ import Foundation
 
 extension String {
 
-    private func snakeCaseToSpaceSeparatedString() -> String {
-        return self.stringByReplacingOccurrencesOfString("_", withString: " ", options: .CaseInsensitiveSearch, range: nil)
+    fileprivate func snakeCaseToSpaceSeparatedString() -> String {
+        return self.replacingOccurrences(of: "_", with: " ", options: .caseInsensitive, range: nil)
     }
 
-    private func camelCaseToSpaceSeparatedString() -> String {
-        return self.stringByReplacingOccurrencesOfString("([A-Z\\d]+)([A-Z][a-z])", withString: "$1 $2", options: .RegularExpressionSearch, range: nil)
-        .stringByReplacingOccurrencesOfString("([a-z\\d])([A-Z])", withString: "$1 $2", options: .RegularExpressionSearch, range: nil)
+    fileprivate func camelCaseToSpaceSeparatedString() -> String {
+        return self.replacingOccurrences(of: "([A-Z\\d]+)([A-Z][a-z])", with: "$1 $2", options: .regularExpression, range: nil)
+        .replacingOccurrences(of: "([a-z\\d])([A-Z])", with: "$1 $2", options: .regularExpression, range: nil)
     }
 
     func camelCase() -> String {
         let baseString = self.snakeCaseToSpaceSeparatedString()
         let string: NSMutableString = NSMutableString(string: baseString)
-        let regex = try! NSRegularExpression(pattern: "((\\s)+(.))", options: .CaseInsensitive)
-        let trimed = baseString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        let matches = regex.matchesInString(trimed, options: [], range: NSRange(location: 0, length: trimed.characters.count))
-        for m in matches.reverse() {
-            let upper = (trimed as NSString).substringWithRange(m.rangeAtIndex(3)).uppercaseString
-            (string as NSMutableString).replaceCharactersInRange(m.rangeAtIndex(1), withString: upper)
+        let regex = try! NSRegularExpression(pattern: "((\\s)+(.))", options: .caseInsensitive)
+        let trimed = baseString.trimmingCharacters(in: CharacterSet.whitespaces)
+        let matches = regex.matches(in: trimed, options: [], range: NSRange(location: 0, length: trimed.count))
+        for m in matches.reversed() {
+            let upper = (trimed as NSString).substring(with: m.range(at: 3)).uppercased()
+            (string as NSMutableString).replaceCharacters(in: m.range(at: 1), with: upper)
         }
 
         if string.length > 0 {
             let firstLetterRange = NSMakeRange(0, 1)
-            let lowercasedFirstLetter = string.substringWithRange(firstLetterRange).lowercaseString;
-            string.replaceCharactersInRange(firstLetterRange, withString: lowercasedFirstLetter)
+            let lowercasedFirstLetter = string.substring(with: firstLetterRange).lowercased();
+            string.replaceCharacters(in: firstLetterRange, with: lowercasedFirstLetter)
         }
 
         return NSString(string: string) as String
     }
 
     func snakeCase() -> String {
-        let baseString = self.snakeCaseToSpaceSeparatedString().camelCaseToSpaceSeparatedString().stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        let baseString = self.snakeCaseToSpaceSeparatedString().camelCaseToSpaceSeparatedString().trimmingCharacters(in: CharacterSet.whitespaces)
         let string: NSMutableString = NSMutableString(string: baseString)
-        let regex = try! NSRegularExpression(pattern: "((\\s)+(.))", options: .CaseInsensitive)
-        let matches = regex.matchesInString(string as String, options: [], range: NSMakeRange(0, (string as String).characters.count))
-        for m in Array(matches.reverse()) {
-            let lower = "_" + (string as NSString).substringWithRange(m.rangeAtIndex(3))
-            (string as NSMutableString).replaceCharactersInRange(m.rangeAtIndex(1), withString: lower)
+        let regex = try! NSRegularExpression(pattern: "((\\s)+(.))", options: .caseInsensitive)
+        let matches = regex.matches(in: string as String, options: [], range: NSMakeRange(0, (string as String).count))
+        for m in Array(matches.reversed()) {
+            let lower = "_" + (string as NSString).substring(with: m.range(at: 3))
+            (string as NSMutableString).replaceCharacters(in: m.range(at: 1), with: lower)
         }
 
-        return NSString(string: string.lowercaseString) as String
+        return NSString(string: string.lowercased) as String
     }
 
     func sanitizeAsMethodName() -> String {
         let string: NSMutableString = NSMutableString(string: self)
-        (string as NSMutableString).replaceOccurrencesOfString(".", withString: "_", options: [], range: NSMakeRange(0, self.characters.count))
+        (string as NSMutableString).replaceOccurrences(of: ".", with: "_", options: [], range: NSMakeRange(0, self.count))
         return NSString(string: string) as String
+    }
+    
+    func appending(pathComponent: String) -> String {
+        return NSString(string: self).appendingPathComponent(pathComponent)
+    }
+    
+    func standardizingPath() -> String {
+        return NSString(string: self).standardizingPath
     }
 }
