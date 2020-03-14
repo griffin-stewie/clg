@@ -8,6 +8,7 @@
 import Foundation
 import ArgumentParser
 import Path
+import Core
 
 struct CLRCommand: ParsableCommand {
     static var configuration = CommandConfiguration(

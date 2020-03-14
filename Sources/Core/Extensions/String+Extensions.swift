@@ -19,7 +19,7 @@ extension String {
         .replacingOccurrences(of: "([a-z\\d])([A-Z])", with: "$1 $2", options: .regularExpression, range: nil)
     }
 
-    func camelCase() -> String {
+    public func camelCase() -> String {
         let baseString = self.snakeCaseToSpaceSeparatedString()
         let string: NSMutableString = NSMutableString(string: baseString)
         let regex = try! NSRegularExpression(pattern: "((\\s)+(.))", options: .caseInsensitive)
@@ -39,7 +39,7 @@ extension String {
         return NSString(string: string) as String
     }
 
-    func snakeCase() -> String {
+    public func snakeCase() -> String {
         let baseString = self.snakeCaseToSpaceSeparatedString().camelCaseToSpaceSeparatedString().trimmingCharacters(in: CharacterSet.whitespaces)
         let string: NSMutableString = NSMutableString(string: baseString)
         let regex = try! NSRegularExpression(pattern: "((\\s)+(.))", options: .caseInsensitive)
@@ -52,17 +52,17 @@ extension String {
         return NSString(string: string.lowercased) as String
     }
 
-    func sanitizeAsMethodName() -> String {
+    public func sanitizeAsMethodName() -> String {
         let string: NSMutableString = NSMutableString(string: self)
         (string as NSMutableString).replaceOccurrences(of: ".", with: "_", options: [], range: NSMakeRange(0, self.count))
         return NSString(string: string) as String
     }
     
-    func appending(pathComponent: String) -> String {
+    public func appending(pathComponent: String) -> String {
         return NSString(string: self).appendingPathComponent(pathComponent)
     }
     
-    func standardizingPath() -> String {
+    public func standardizingPath() -> String {
         return NSString(string: self).standardizingPath
     }
 }

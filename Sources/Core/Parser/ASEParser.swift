@@ -91,21 +91,21 @@ struct ParseModel {
     }
 }
 
-struct ASEParser {
+public struct ASEParser {
     let BT_GROUP_START: UInt16 = 0xc001
     let BT_GROUP_END: UInt16 = 0xc002
     let BT_COLOR_ENTRY: UInt16 = 0x0001
     var colorList = NSColorList(name: "x")
 
-    func parse(_ url: URL) -> NSColorList? {
-        return parse(url.path)
+    func parse(url: URL) -> NSColorList? {
+        return parse(path: url.path)
     }
 
-    func parse(_ path: String) -> NSColorList? {
+    func parse(path: String) -> NSColorList? {
         guard let ASEFileHandle = FileHandle(forReadingAtPath:path) else  {
             return nil
         }
-        
+
         let header = ASEFileHandle.readData(ofLength: 4)
         if header != Data(bytes: UnsafePointer<UInt8>(SIGNATURE), count: 4) {
             NSLog("%s %@", #function, "this file is not ASE");

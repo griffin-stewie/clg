@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-class Color {
+public class Color {
 
     var name: String
 
@@ -61,7 +61,7 @@ class Color {
         return colorComponent.color
     }
 
-    init(dictionary: [String:String]) {
+    public init(dictionary: [String:String]) {
         name = dictionary["name"]!
 
         if let hex = dictionary["hex"] {

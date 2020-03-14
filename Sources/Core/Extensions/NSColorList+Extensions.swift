@@ -7,7 +7,7 @@
 
 import Cocoa
 
-extension NSColorList {
+public extension NSColorList {
     func toJSON() -> [[String : String]]? {
         return CLRParser().parse(colorList: self)
     }

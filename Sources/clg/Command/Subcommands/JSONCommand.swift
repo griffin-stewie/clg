@@ -9,6 +9,7 @@ import Cocoa
 import Foundation
 import ArgumentParser
 import Path
+import Core
 
 struct JSONCommand: ParsableCommand {
     static var configuration = CommandConfiguration(

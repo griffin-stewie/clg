@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension FileHandle {
+public extension FileHandle {
 
 	// read write as is
 

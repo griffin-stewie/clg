@@ -1,26 +1,7 @@
-//
-//  clgTest.swift
-//  clgTest
-//
-//  Created by griffin-stewie on 2015/05/27.
-//  Copyright (c) 2015 net.cyan-stivy. All rights reserved.
-//
-
-import Cocoa
 import XCTest
+@testable import Core
 
-class clgTest: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
+final class StringTests: XCTestCase {
     func testConvertToSnakeCase1() {
         // This is an example of a functional test case.
         let input = "cell background"
@@ -70,5 +51,4 @@ class clgTest: XCTestCase {
         let output = input.camelCase()
         XCTAssertEqual(output, "cellBackground", "should be equal")
     }
-
 }

@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-struct CSVParser {
+public struct CSVParser {
     func parse(_ CSVText: String) -> NSColorList? {
         let colorList :NSColorList = NSColorList(name: "x")
         CSVText.enumerateLines { (line, stop) -> () in
