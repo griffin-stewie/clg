@@ -9,9 +9,9 @@
 import Foundation
 
 enum Code: String, CaseIterable, Decodable {
-    case Swift = "swift"
-    case ObjC = "objc"
-    case Android = "android"
+    case swift = "swift"
+    case objc = "objc"
+    case android = "android"
 
     static var allCasesDescription: String {
         return self.allCases.map{String($0.rawValue)}.joined(separator: ", ")
@@ -19,7 +19,7 @@ enum Code: String, CaseIterable, Decodable {
 
     func generateCode(_ colors: [Color], directory: String) {
         switch self {
-        case .Swift:
+        case .swift:
             func classFunc(_ color: Color) -> String {
 
                 let methodName = color.name.camelCase().sanitizeAsMethodName()
@@ -69,7 +69,7 @@ enum Code: String, CaseIterable, Decodable {
 
             generateSwiftFile(colors, directory: directory)
 
-        case .ObjC:
+        case .objc:
             func classMethodInterface(_ color: Color) -> String {
                 let methodName: String = color.name.camelCase().sanitizeAsMethodName() + "Color"
                 let code = "+ (UIColor *)clg_\(methodName);\n\n"
@@ -169,7 +169,7 @@ enum Code: String, CaseIterable, Decodable {
             generateObjCHeaderFile(colors, fileName: directory)
             generateObjCImplementationFile(colors, fileName: directory)
 
-        case .Android:
+        case .android:
             func colorElement(_ color: Color) -> String {
                 let name: String = color.name.snakeCase().sanitizeAsMethodName()
                 return "    <color name=\"\(name)\">\(color.hexStringRepresentation())</color>\n"
