@@ -18,11 +18,25 @@ let package = Package(
         .target(
             name: "clg",
             dependencies: [
+                "Core",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "Path", package: "Path.swift"),
-            ]),
+        ]),
+        .target(
+            name: "Core",
+            dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "Path", package: "Path.swift"),
+        ]),
         .testTarget(
             name: "clgTests",
-            dependencies: ["clg"]),
+            dependencies: [
+                "clg"
+        ]),
+        .testTarget(
+            name: "CoreTests",
+            dependencies: [
+                "Core"
+        ]),
     ]
 )

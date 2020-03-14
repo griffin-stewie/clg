@@ -10,7 +10,7 @@ import Foundation
 import Cocoa
 import Path
 
-enum FileType {
+public enum FileType {
     case unknown;
     case clr;
     case json;
@@ -18,7 +18,7 @@ enum FileType {
     case csv;
 }
 
-extension FileType {
+public extension FileType {
 
     init(from url: URL) {
         let ext = url.pathExtension.lowercased()
@@ -64,7 +64,7 @@ extension FileType {
             }
 
         case .ase:
-            return ASEParser().parse(url)
+            return ASEParser().parse(url: url)
         case .csv:
             guard let text = try? String(contentsOf: url, encoding: .utf8) else {
                 return nil
