@@ -8,25 +8,24 @@
 
 import Foundation
 
-enum Code: String {
+enum Code: String, CaseIterable, Decodable {
     case Swift = "swift"
     case ObjC = "objc"
     case Android = "android"
+
+    static var allCasesDescription: String {
+        return self.allCases.map{String($0.rawValue)}.joined(separator: ", ")
+    }
 
     func generateCode(_ colors: [Color], directory: String) {
         switch self {
         case .Swift:
             func classFunc(_ color: Color) -> String {
 
-                let methodName: String
-                if let cName = color.name {
-                    methodName = cName.camelCase().sanitizeAsMethodName()
-                } else {
-                    methodName = "cName"
-                }
+                let methodName = color.name.camelCase().sanitizeAsMethodName()
 
                 let code = "    static let \(methodName): UIColor = " +
-                    "#colorLiteral(red: \(Double(color.color!.redComponent)), green: \(Double(color.color!.greenComponent)), blue: \(Double(color.color!.blueComponent)), alpha: \(Double(color.color!.alphaComponent)))\n\n"
+                    "#colorLiteral(red: \(Double(color.color.redComponent)), green: \(Double(color.color.greenComponent)), blue: \(Double(color.color.blueComponent)), alpha: \(Double(color.color.alphaComponent)))\n\n"
                 return code
             }
 
@@ -57,14 +56,14 @@ enum Code: String {
                         result = false
                     }
                     if result {
-                        CSNPrintStandardOutput("SUCCESS: saved to \(path)")
+                        print("SUCCESS: saved to \(path)")
                     }
                     #if DEBUG
                         print(e)
                         print(result)
                     #endif
                 } else {
-                    CSNPrintStandardOutput("FAILED: failed to save swift extension file")
+                    print("FAILED: failed to save swift extension file")
                 }
             }
 
@@ -72,31 +71,18 @@ enum Code: String {
 
         case .ObjC:
             func classMethodInterface(_ color: Color) -> String {
-
-                let methodName: String
-                if let cName = color.name {
-                    methodName = cName.camelCase().sanitizeAsMethodName() + "Color"
-                } else {
-                    methodName = "cName" + "Color()"
-                }
-
-
+                let methodName: String = color.name.camelCase().sanitizeAsMethodName() + "Color"
                 let code = "+ (UIColor *)clg_\(methodName);\n\n"
                 return code
             }
 
             func classMethodImplementation(_ color: Color) -> String {
 
-                let methodName: String
-                if let cName = color.name {
-                    methodName = cName.camelCase().sanitizeAsMethodName() + "Color"
-                } else {
-                    methodName = "cName" + "Color()"
-                }
+                let methodName: String = color.name.camelCase().sanitizeAsMethodName() + "Color"
 
                 let code = "+ (UIColor *)clg_\(methodName)\n" +
                 "{\n" +
-                "    return [UIColor colorWithRed:\(Double(color.color!.redComponent)) green:\(Double(color.color!.greenComponent)) blue:\(Double(color.color!.blueComponent)) alpha:\(Double(color.color!.alphaComponent))];\n" +
+                "    return [UIColor colorWithRed:\(Double(color.color.redComponent)) green:\(Double(color.color.greenComponent)) blue:\(Double(color.color.blueComponent)) alpha:\(Double(color.color.alphaComponent))];\n" +
                 "}\n\n"
                 return code
             }
@@ -130,14 +116,14 @@ enum Code: String {
                         result = false
                     }
                     if result {
-                        CSNPrintStandardOutput("SUCCESS: saved to \(path)")
+                        print("SUCCESS: saved to \(path)")
                     }
                     #if DEBUG
                         print(e)
                         print(result)
                     #endif
                 } else {
-                    CSNPrintStandardOutput("FAILED: failed to save swift extension file")
+                    print("FAILED: failed to save swift extension file")
                 }
             }
 
@@ -168,14 +154,14 @@ enum Code: String {
                         result = false
                     }
                     if result {
-                        CSNPrintStandardOutput("SUCCESS: saved to \(path)")
+                        print("SUCCESS: saved to \(path)")
                     }
                     #if DEBUG
                         print(e)
                         print(result)
                     #endif
                 } else {
-                    CSNPrintStandardOutput("FAILED: failed to save swift extension file")
+                    print("FAILED: failed to save swift extension file")
                 }
 
             }
@@ -185,12 +171,7 @@ enum Code: String {
 
         case .Android:
             func colorElement(_ color: Color) -> String {
-                let name: String
-                if let cName = color.name {
-                    name = cName.snakeCase().sanitizeAsMethodName()
-                } else {
-                    name = "cName"
-                }
+                let name: String = color.name.snakeCase().sanitizeAsMethodName()
                 return "    <color name=\"\(name)\">\(color.hexStringRepresentation())</color>\n"
             }
 
@@ -221,14 +202,14 @@ enum Code: String {
                         result = false
                     }
                     if result {
-                        CSNPrintStandardOutput("SUCCESS: saved to \(path)")
+                        print("SUCCESS: saved to \(path)")
                     }
                     #if DEBUG
                         print(e)
                         print(result)
                     #endif
                 } else {
-                    CSNPrintStandardOutput("FAILED: failed to save swift extension file")
+                    print("FAILED: failed to save swift extension file")
                 }
             }
 
@@ -237,4 +218,3 @@ enum Code: String {
     }
 
 }
-

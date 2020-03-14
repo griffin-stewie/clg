@@ -11,31 +11,66 @@ import Cocoa
 
 class Color {
 
-    var name: String?
-    var color: NSColor?
+    var name: String
 
-    init?(dictionary: NSDictionary) {
-        var name: String?
-        var color: NSColor?
+    struct ColorComponent {
+        let red: CGFloat
+        let green: CGFloat
+        let blue: CGFloat
+        let alpha: CGFloat
 
-        name = dictionary["name"] as? String
+        init(dict: [String:String]) {
 
-        if let hex = dictionary["hex"] as? String {
-            let trimed = hex.trimmingCharacters(in: CharacterSet(charactersIn:"#"))
-            color = Color.colorFromHexString(trimed)
-        } else {
-            let red = dictionary["r"] as? String
-            let green = dictionary["g"] as? String
-            let blue = dictionary["b"] as? String
-            let alpha = dictionary["a"] as? String
-            color = Color.colorFromStrings(red: red, green: green, blue: blue, alpha: alpha)
+            let d: [String:CGFloat] = dict.compactMapValues(Double.init).compactMapValues(CGFloat.init)
+
+            guard d.count >= 3 else {
+                preconditionFailure("illegal dictionary")
+            }
+
+            red = d["r"]!
+            green = d["g"]!
+            blue = d["b"]!
+            alpha = d["a"] ?? 1.0
         }
 
-        if nil == name || nil == color {
-            return nil
+        init(hex value: String) {
+            let characters = Array(value.utf8)
+            guard 6 <= characters.count else {
+                preconditionFailure("illegal hex string")
+            }
+
+            red = Color.colorValue(characters[0], characters[1])
+            green = Color.colorValue(characters[2], characters[3])
+            blue = Color.colorValue(characters[4], characters[5])
+
+            if 8 <= characters.count {
+                alpha = Color.colorValue(characters[6], characters[7])
+            } else {
+                alpha = 1.0
+            }
+        }
+
+        var color: NSColor {
+            return NSColor(calibratedRed: red, green: green, blue: blue, alpha: alpha)
+        }
+    }
+
+    var colorComponent: ColorComponent
+
+    var color: NSColor {
+        return colorComponent.color
+    }
+
+    init(dictionary: [String:String]) {
+        name = dictionary["name"]!
+
+        if let hex = dictionary["hex"] {
+            let trimed = hex.trimmingCharacters(in: CharacterSet(charactersIn:"#"))
+            colorComponent = ColorComponent(hex: trimed)
         } else {
-            self.name = name
-            self.color = color
+            var dict = dictionary
+            dict["name"] = nil
+            colorComponent = ColorComponent(dict: dict)
         }
     }
 
@@ -93,7 +128,7 @@ class Color {
     }
 
     func hexStringRepresentation(_ needsHashMark: Bool = true) -> String {
-        let x = self.color!
+        let x = self.color
         func toInt(_ component: CGFloat) -> Int {
             return Int(component * 255.0)
         }

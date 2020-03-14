@@ -97,45 +97,52 @@ struct ASEParser {
     let BT_COLOR_ENTRY: UInt16 = 0x0001
     var colorList = NSColorList(name: "x")
 
+    func parse(_ url: URL) -> NSColorList? {
+        return parse(url.path)
+    }
+
     func parse(_ path: String) -> NSColorList? {
-        if let ASEFileHandle = FileHandle(forReadingAtPath:path) {
-            let header = ASEFileHandle.readData(ofLength: 4)
-            if header != Data(bytes: UnsafePointer<UInt8>(SIGNATURE), count: 4) {
-                NSLog("%s %@", #function, "this file is not ASE");
-                return nil
-            }
-
-            let majVData: Data = ASEFileHandle.readData(ofLength: 2)
-            let minVData: Data = ASEFileHandle.readData(ofLength: 2)
-            let nblocksData: Data = ASEFileHandle.readData(ofLength: 4)
-
-            _ = minVData.readUInt16BE(minVData.count)
-            _ = majVData.readUInt16BE(majVData.count)
-            let nBlocks:UInt32 = nblocksData.readUInt32BE(nblocksData.count)
-
-            //NSLog("Version %d.%d, blocks %d", majV, minV, nBlocks);
-
-            for _ in 0..<nBlocks {
-                self.readBlock(ASEFileHandle)
-            }
+        guard let ASEFileHandle = FileHandle(forReadingAtPath:path) else  {
+            return nil
         }
+        
+        let header = ASEFileHandle.readData(ofLength: 4)
+        if header != Data(bytes: UnsafePointer<UInt8>(SIGNATURE), count: 4) {
+            NSLog("%s %@", #function, "this file is not ASE");
+            return nil
+        }
+
+        let majVData: Data = ASEFileHandle.readData(ofLength: 2)
+        let minVData: Data = ASEFileHandle.readData(ofLength: 2)
+        let nblocksData: Data = ASEFileHandle.readData(ofLength: 4)
+
+        _ = minVData.readUInt16BE(minVData.count)
+        _ = majVData.readUInt16BE(majVData.count)
+        let nBlocks:UInt32 = nblocksData.readUInt32BE(nblocksData.count)
+
+        //NSLog("Version %d.%d, blocks %d", majV, minV, nBlocks);
+
+        for _ in 0..<nBlocks {
+            self.readBlock(ASEFileHandle)
+        }
+
 
         return colorList
     }
 
     func readBlock(_ fileHandle :FileHandle) {
-        let blockType: UInt16 = (fileHandle.readData(ofLength: 2) as NSData).bigEndianUInt16()
-        let blockLength: UInt32 = (fileHandle.readData(ofLength: 4) as NSData).bigEndianUInt32()
+        let blockType: UInt16 = fileHandle.readUInt16()!
+        let blockLength: UInt32 = fileHandle.readUInt32()!
 
         switch blockType {
         case BT_COLOR_ENTRY:
-            let nameLength: UInt16 = (fileHandle.readData(ofLength: 2) as NSData).bigEndianUInt16()
+            let nameLength: UInt16 = fileHandle.readUInt16()!
             let nameData: Data = fileHandle.readData(ofLength: Int(nameLength * 2))
             var name = String(data: nameData, encoding: String.Encoding.utf8)
             let colorModelData: Data = fileHandle.readData(ofLength: 4)
             if let colorModel = NSString(data: colorModelData, encoding: String.Encoding.ascii.rawValue) {
                 let color = colorFromModel(colorModel, fileHandle: fileHandle)
-                _ = (fileHandle.readData(ofLength: 2) as NSData).bigEndianUInt16()
+                _ = fileHandle.readUInt16()
 
                 if name == nil || name == "\0" {
                     let convertedColor = color.usingColorSpaceName(NSColorSpaceName.deviceRGB)!;
@@ -172,22 +179,22 @@ struct ASEParser {
     func colorFromModel(_ colorModel: NSString, fileHandle: FileHandle) -> NSColor {
         switch colorModel {
         case "RGB ":
-            let red :CGFloat = CGFloat((fileHandle.readData(ofLength: 4) as NSData).bigEndianFloat32())
-            let green :CGFloat = CGFloat((fileHandle.readData(ofLength: 4) as NSData).bigEndianFloat32())
-            let blue :CGFloat = CGFloat((fileHandle.readData(ofLength: 4) as NSData).bigEndianFloat32())
+            let red :CGFloat = CGFloat(fileHandle.readFloat()!)
+            let green :CGFloat = CGFloat(fileHandle.readFloat()!)
+            let blue :CGFloat = CGFloat(fileHandle.readFloat()!)
             let color = NSColor(srgbRed: red, green: green, blue: blue, alpha: 1.0)
             return color
         case "CMYK":
-            let cyan :CGFloat = CGFloat((fileHandle.readData(ofLength: 4) as NSData).bigEndianFloat32())
-            let magenta :CGFloat = CGFloat((fileHandle.readData(ofLength: 4) as NSData).bigEndianFloat32())
-            let yellow :CGFloat = CGFloat((fileHandle.readData(ofLength: 4) as NSData).bigEndianFloat32())
-            let black :CGFloat = CGFloat((fileHandle.readData(ofLength: 4) as NSData).bigEndianFloat32())
+            let cyan :CGFloat = CGFloat(fileHandle.readFloat()!)
+            let magenta :CGFloat = CGFloat(fileHandle.readFloat()!)
+            let yellow :CGFloat = CGFloat(fileHandle.readFloat()!)
+            let black :CGFloat = CGFloat(fileHandle.readFloat()!)
             let color = NSColor(deviceCyan: cyan, magenta: magenta, yellow: yellow, black: black, alpha: 1.0).usingColorSpace(NSColorSpace.sRGB)!
             return color
         case "LAB ":
             assertionFailure("Unsupport Color Model")
         case "Gray":
-            let white :CGFloat = CGFloat((fileHandle.readData(ofLength: 4) as NSData).bigEndianFloat32())
+            let white :CGFloat = CGFloat(fileHandle.readFloat()!)
             let color = NSColor(white: white, alpha: 1.0).usingColorSpace(NSColorSpace.sRGB)!
             return color
         default:

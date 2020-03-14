@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Path.swift",
+        "repositoryURL": "https://github.com/mxcl/Path.swift.git",
+        "state": {
+          "branch": null,
+          "revision": "6e1eeb158ae0e71da3af23ef869aa0dc1adf7355",
+          "version": "1.0.1"
+        }
+      },
+      {
+        "package": "swift-argument-parser",
+        "repositoryURL": "https://github.com/apple/swift-argument-parser",
+        "state": {
+          "branch": null,
+          "revision": "12941604a7cd6c31555b014ce3f5f8348a51564a",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
