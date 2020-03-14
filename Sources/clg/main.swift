@@ -7,9 +7,6 @@
 //
 
 import Foundation
+import ArgumentParser
 
-let kAppVersion = "0.3.0"
-
-let result = CSNCommandLineParser.run(with: Root())
-
-exit(Int32(result))
+RootCommand.main()
