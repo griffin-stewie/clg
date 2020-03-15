@@ -11,8 +11,6 @@ import Cocoa
 
 public class Color {
 
-    var name: String
-
     struct ColorComponent {
         let red: CGFloat
         let green: CGFloat
@@ -20,17 +18,17 @@ public class Color {
         let alpha: CGFloat
 
         init(dict: [String:String]) {
+            let values = Color.floatValuesFromStrings(
+                red: dict["r"],
+                green: dict["g"],
+                blue: dict["b"],
+                alpha: dict["a"]
+            )
 
-            let d: [String:CGFloat] = dict.compactMapValues(Double.init).compactMapValues(CGFloat.init)
-
-            guard d.count >= 3 else {
-                preconditionFailure("illegal dictionary")
-            }
-
-            red = d["r"]!
-            green = d["g"]!
-            blue = d["b"]!
-            alpha = d["a"] ?? 1.0
+            red = values.red
+            green = values.green
+            blue = values.blue
+            alpha = values.alpha
         }
 
         init(hex value: String) {
@@ -61,6 +59,8 @@ public class Color {
         return colorComponent.color
     }
 
+    var name: String
+
     public init(dictionary: [String:String]) {
         name = dictionary["name"]!
 
@@ -73,7 +73,9 @@ public class Color {
             colorComponent = ColorComponent(dict: dict)
         }
     }
+}
 
+extension Color {
     class func colorFromHexString(_ value: String) -> NSColor? {
         var red: CGFloat = 0.0
         var green: CGFloat = 0.0
@@ -108,12 +110,12 @@ public class Color {
         }
     }
 
-    class func colorFromStrings(red: String?, green: String?, blue: String?, alpha: String?) -> NSColor? {
+    class func floatValuesFromStrings(red: String?, green: String?, blue: String?, alpha: String?) -> (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
         let r = Color.floatValueFromString(red) ?? 0.0
         let g = Color.floatValueFromString(green) ?? 0.0
         let b = Color.floatValueFromString(blue) ?? 0.0
         let a = Color.floatValueFromString(alpha) ?? 1.0
-        return NSColor(calibratedRed: r, green: g, blue: b, alpha: a)
+        return (r, g, b, a)
     }
 
     class func floatValueFromString(_ value: String?) -> CGFloat? {
@@ -143,5 +145,4 @@ public class Color {
         }
         return hexString
     }
-
 }
