@@ -12,7 +12,7 @@ import ArgumentParser
 struct RootCommand: ParsableCommand {
     static var configuration = CommandConfiguration(
         commandName: "clg",
-        abstract: "clg, generates Color stuffs Swift code, Objective-C code, colors.xml, clr file, and JSON",
+        abstract: "clg, generates Color stuffs: Swift code, Objective-C code, Color Set, colors.xml, clr file, and JSON",
         subcommands: [
             CLRCommand.self,
             JSONCommand.self,
