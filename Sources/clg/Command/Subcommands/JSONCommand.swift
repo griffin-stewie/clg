@@ -52,8 +52,8 @@ struct JSONCommand: ParsableCommand {
 
 fileprivate extension JSONCommand {
     func outputPath(from path: Path, filename: String) -> Path {
-        guard path.isFile else {
-            return Path.cwd/"\(filename).json"
+        if path.isDirectory {
+            return path/"\(filename).json"
         }
 
         return path
