@@ -15,7 +15,7 @@ extension Code: ExpressibleByArgument { }
 struct CodeCommand: ParsableCommand {
     static var configuration = CommandConfiguration(
         commandName: "code",
-        abstract: " generates Swift code, Objective-C code, colors.xml from JSON"
+        abstract: "generates Swift code, Objective-C code, Color Set, colors.xml from JSON"
     )
 
     @Option(name: [.customLong("code"), .customShort("c")], help: ArgumentHelp("generate specific type of code file", valueName: Code.allCasesDescription))
@@ -30,7 +30,7 @@ struct CodeCommand: ParsableCommand {
 
     @Argument(help: ArgumentHelp("", valueName: "JSON file path"))
     var inputFilePath: Path
-    
+
     func run() throws {
         let jsonData = try Data(contentsOf: inputFilePath.url)
 
