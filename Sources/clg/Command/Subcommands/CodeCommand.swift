@@ -21,8 +21,12 @@ struct CodeCommand: ParsableCommand {
     @Option(name: [.customLong("code"), .customShort("c")], help: ArgumentHelp("generate specific type of code file", valueName: Code.allCasesDescription))
     var codeType: Code
 
-    @Option(name: [.customLong("output"), .customShort("o")], default: Path.cwd/".", help: ArgumentHelp("Output directory that generated file will be saved.", valueName: "directory"))
-    var outputPath: Path
+    @Option(name: [.customLong("output"), .customShort("o")], help: ArgumentHelp("Output directory that generated file will be saved. (default: current directory)", valueName: "directory"))
+    var _outputPath: Path?
+
+    var outputPath: Path {
+        _outputPath ?? Path.cwd/"."
+    }
 
     @Argument(help: ArgumentHelp("", valueName: "JSON file path"))
     var inputFilePath: Path
