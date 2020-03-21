@@ -138,7 +138,7 @@ public struct ASEParser {
         case BT_COLOR_ENTRY:
             let nameLength: UInt16 = fileHandle.readUInt16()!
             let nameData: Data = fileHandle.readData(ofLength: Int(nameLength * 2))
-            var name = String(data: nameData, encoding: String.Encoding.utf8)
+            var name = String(data: nameData, encoding: String.Encoding.utf16)
             let colorModelData: Data = fileHandle.readData(ofLength: 4)
             if let colorModel = NSString(data: colorModelData, encoding: String.Encoding.ascii.rawValue) {
                 let color = colorFromModel(colorModel, fileHandle: fileHandle)
