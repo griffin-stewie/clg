@@ -7,10 +7,12 @@
 //
 
 import Foundation
+import Path
 
 public enum Code: String, CaseIterable, Decodable {
     case swift = "swift"
     case objc = "objc"
+    case colorset = "colorset"
     case android = "android"
 
     public static var allCasesDescription: String {
@@ -142,7 +144,45 @@ public enum Code: String, CaseIterable, Decodable {
 
             generateObjCHeaderFile(colors, fileName: directory)
             generateObjCImplementationFile(colors, fileName: directory)
+        case .colorset:
 
+            func colorObject(_ color: Color) -> [String:Any] {
+                return [
+                    "idiom": "universal",
+                    "color": [
+                        "color-space": "display-p3",
+                        "components": color.colorComponetsDictionary()
+                    ]
+                ]
+            }
+
+            let info: [String : Any] = [
+                "version": 1,
+                "author": "clg"
+            ]
+
+            for color in colors {
+                let contents: [String : Any] = [
+                    "info": info,
+                    "colors": [
+                        colorObject(color)
+                    ]
+                ]
+
+                do {
+                    guard let path = Path(directory) else {
+                        return
+                    }
+                    let colorsetDir = path/"\(color.name).colorset"
+                    try colorsetDir.mkdir()
+                    let data = try JSONSerialization.data(withJSONObject: contents, options: JSONSerialization.WritingOptions.prettyPrinted)
+                    try data.write(to: colorsetDir/"Contents.json")
+                } catch {
+                    #if DEBUG
+                    print(error)
+                    #endif
+                }
+            }
         case .android:
             func colorElement(_ color: Color) -> String {
                 let name: String = color.name.snakeCase().sanitizeAsMethodName()
