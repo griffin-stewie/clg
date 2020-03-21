@@ -146,3 +146,16 @@ extension Color {
         return hexString
     }
 }
+
+extension Color {
+
+    /// returns dictionary contains r, g, b, a
+    public func colorComponetsDictionary() -> [String:String] {
+        return [
+            "red" : "\(colorComponent.red)",
+            "green" : "\(colorComponent.alpha)",
+            "blue" : "\(colorComponent.blue)",
+            "alpha" : "\(colorComponent.alpha)",
+        ]
+    }
+}
