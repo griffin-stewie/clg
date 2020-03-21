@@ -107,7 +107,8 @@ public struct ASEParser {
         }
 
         let header = ASEFileHandle.readData(ofLength: 4)
-        if header != Data(bytes: UnsafePointer<UInt8>(SIGNATURE), count: 4) {
+
+        if header != Data(SIGNATURE.utf8) {
             NSLog("%s %@", #function, "this file is not ASE");
             return nil
         }
