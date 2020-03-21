@@ -1,5 +1,21 @@
 # clg
 
+```
+% clg --help
+OVERVIEW: clg, generates Color stuffs: Swift code, Objective-C code, Color Set, colors.xml, clr file, and JSON
+
+USAGE: clg [--version] <subcommand>
+
+OPTIONS:
+  -v, --version           Print version
+  -h, --help              Show help information.
+
+SUBCOMMANDS:
+  clr                     generates clr file from JSON
+  json                    generates JSON from clr file OR CSV file OR ASE file a.k.a. "Adobe Swatch Exchange"
+  code                    generates Swift code, Objective-C code, Color Set, colors.xml from JSON
+```
+
 ## subcommands
 
 ### clr
@@ -7,13 +23,13 @@
 generates clr file from JSON
 
 ```sh
-clg clr --output ~/Library/Colors/sample.clr sample.json
+clg clr --output ~/Library/Colors sample.json
 ```
 
 #### Options
 
 - `--output`, `-o`
-    - path for output
+    - path for output directory
 
 ### json
 
@@ -44,10 +60,11 @@ CSV file format should be like below
 
 - `--output`, `-o`
     - path for output
+        - use input file name if path is directory
 
 ### code
 
-generates Swift code, Objective-C code, colors.xml from JSON
+generates Swift code, Objective-C code, Color Set, colors.xml from JSON
 
 ```sh
 clg code --output ~/somewhere/ --code swift sample.json
@@ -61,4 +78,5 @@ clg code --output ~/somewhere/ --code swift sample.json
     - generate specific type of code file
         - `swift`
         - `objc`
+        - `colorset`
         - `android`
