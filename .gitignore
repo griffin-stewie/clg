@@ -55,7 +55,8 @@ crashlytics-build.properties
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -239,3 +240,8 @@ DerivedData
 
 Carthage/Build
 
+.DS_Store
+/.build
+/Packages
+/*.xcodeproj
+xcuserdata/
