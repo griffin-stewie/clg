@@ -9,6 +9,7 @@
 import Foundation
 import Cocoa
 import Path
+import ASE
 
 public enum FileType {
     case unknown;
@@ -64,7 +65,8 @@ public extension FileType {
             }
 
         case .ase:
-            return ASEParser().parse(url: url)
+            let ase = try? ASE(from: url)
+            return ase?.colorList
         case .csv:
             guard let text = try? String(contentsOf: url, encoding: .utf8) else {
                 return nil

@@ -5,10 +5,11 @@
 //  Created by griffin-stewie on 2020/03/09.
 //
 
+import Cocoa
 import Foundation
 import ArgumentParser
 import Path
-import Cocoa
+import ASE
 
 extension Path: ExpressibleByArgument {
     public init?(argument: String) {
@@ -33,9 +34,9 @@ public extension FileType {
     }
 }
 
-public extension ASEParser {
-    func parse(path: Path) -> NSColorList? {
-        return parse(url: path.url)
+public extension ASE {
+    init(from path: Path) throws {
+        try self.init(from: path.url)
     }
 }
 
