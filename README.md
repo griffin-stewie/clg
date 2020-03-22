@@ -80,3 +80,13 @@ clg code --output ~/somewhere/ --code swift sample.json
         - `objc`
         - `colorset`
         - `android`
+
+## Installation
+
+Requires macOS Catalina.
+
+Using homebrew:
+
+```
+brew install griffin-stewie/clg/clg
+```
