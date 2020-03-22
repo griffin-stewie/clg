@@ -15,6 +15,14 @@ extension Path: ExpressibleByArgument {
     public init?(argument: String) {
         self = Path(argument) ?? Path.cwd/argument
     }
+
+    public var defaultValueDescription: String {
+        if self == Path.cwd/"." {
+            return "current directory"
+        }
+
+        return String(describing: self)
+    }
 }
 
 public extension URL {
