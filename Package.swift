@@ -6,11 +6,12 @@ import PackageDescription
 let package = Package(
     name: "clg",
     platforms: [
-        .macOS(.v10_13),
+        .macOS(.v10_15),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser", .revision("12941604a7cd6c31555b014ce3f5f8348a51564a")),
         .package(url: "https://github.com/mxcl/Path.swift.git", from: "1.0.1"),
+        .package(url: "https://github.com/griffin-stewie/ASE", from: "1.0.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -21,12 +22,14 @@ let package = Package(
                 "Core",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "Path", package: "Path.swift"),
+                "ASE",
         ]),
         .target(
             name: "Core",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "Path", package: "Path.swift"),
+                "ASE",
         ]),
         .testTarget(
             name: "clgTests",

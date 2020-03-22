@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "ASE",
+        "repositoryURL": "https://github.com/griffin-stewie/ASE",
+        "state": {
+          "branch": null,
+          "revision": "45ba4014daef4cb28206ae4069d7b6e03bb0302d",
+          "version": "1.0.0"
+        }
+      },
+      {
         "package": "Path.swift",
         "repositoryURL": "https://github.com/mxcl/Path.swift.git",
         "state": {
