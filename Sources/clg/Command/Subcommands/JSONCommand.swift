@@ -27,7 +27,7 @@ struct JSONCommand: ParsableCommand {
 
     func run() throws {
         // Detect what file type `inputFile` is
-        let fileType = FileType(from: inputFilePath.url)
+        let fileType = try FileType(from: inputFilePath.url)
 
         // convert input file to NSColorList
         guard let colorList = fileType.colorListFrom(url: inputFilePath.url) else {

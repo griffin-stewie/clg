@@ -11,8 +11,7 @@ import Cocoa
 import Path
 import ASE
 
-public enum FileType {
-    case unknown;
+public enum FileType: CaseIterable {
     case clr;
     case json;
     case ase;
@@ -21,7 +20,7 @@ public enum FileType {
 
 public extension FileType {
 
-    init(from url: URL) {
+    init(from url: URL) throws {
         let ext = url.pathExtension.lowercased()
         switch ext {
         case "clr":
@@ -35,7 +34,7 @@ public extension FileType {
         case "txt":
             self = .csv
         default:
-            self = .unknown
+            throw RuntimeError("Unsupported file types. Supported file types are \(FileType.allCasesDescription).")
         }
     }
 

@@ -36,9 +36,9 @@ public extension URL {
 }
 
 public extension FileType {
-    init(from path: String) {
+    init(from path: String) throws {
         let url = Path(argument: path)!.url
-        self = .init(from: url)
+        self = try .init(from: url)
     }
 }
 
