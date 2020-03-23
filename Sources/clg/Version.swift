@@ -13,7 +13,7 @@ struct Version: ParsableArguments {
     @Flag(name: .shortAndLong, help: "Print version")
     var version: Bool
 
-    let versionNumber = "2.0.0"
+    let versionNumber = "2.1.0"
 
     func validate() throws {
         if version { throw CleanExit.message("version \(versionNumber)") }
