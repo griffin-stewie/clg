@@ -13,17 +13,20 @@ import Core
 struct CLRCommand: ParsableCommand {
     static var configuration = CommandConfiguration(
         commandName: "clr",
-        abstract: "generates clr file from JSON"
+        abstract: "generates clr file from input"
     )
 
     @Option(name: [.customLong("output"), .customShort("o")], default: Path.home/"Library"/"Colors", help: "Output directory that clr file will be saved.")
     var outputPath: Path
 
-    @Argument()
+    @Argument(help: ArgumentHelp("Supported file types are \(FileType.allCasesDescription)", valueName: "input file"))
     var inputFilePath: Path
 
     func run() throws {
-        guard let colorList = FileType.json.colorListFrom(url: inputFilePath.url) else {
+        // Detect what file type `inputFile` is
+        let fileType = try FileType(from: inputFilePath.url)
+
+        guard let colorList = fileType.colorListFrom(url: inputFilePath.url) else {
             throw RuntimeError("Could not load \(inputFilePath.string)")
         }
 
