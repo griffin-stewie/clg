@@ -15,10 +15,6 @@ public enum Code: String, CaseIterable, Decodable {
     case colorset = "colorset"
     case android = "android"
 
-    public static var allCasesDescription: String {
-        return self.allCases.map{String($0.rawValue)}.joined(separator: ", ")
-    }
-
     public func generateCode(_ colors: [Color], directory: String) {
         switch self {
         case .swift:
