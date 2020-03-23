@@ -71,8 +71,6 @@ public extension FileType {
                 return nil
             }
             return CSVParser().parse(text)
-        default:
-            preconditionFailure("Unsupported file")
         }
     }
 }
