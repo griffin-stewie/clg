@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/apple/swift-argument-parser",
         "state": {
           "branch": null,
-          "revision": "ab0f98fe241c04b5a1e91ead9521bdaab0094c9b",
-          "version": null
+          "revision": "14c7622293ffbb7a235e896e37adf7eb089884a3",
+          "version": "0.0.3"
         }
       }
     ]
