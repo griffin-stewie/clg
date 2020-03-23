@@ -9,8 +9,8 @@
 import Foundation
 import Cocoa
 
-public struct CLRParser {
-    func parse(colorList: NSColorList) -> [[String : String]]? {
+struct CLRParser {
+    func parse(colorList: NSColorList) -> [[String : String]] {
         var dicts = [[String : String]]()
 
         for key in colorList.allKeys {

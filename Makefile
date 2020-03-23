@@ -12,3 +12,6 @@ install: clean build
 
 clean:
 	swift package clean
+
+test:
+	swift test 2>&1 | xcpretty

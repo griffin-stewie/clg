@@ -11,16 +11,18 @@ OPTIONS:
   -h, --help              Show help information.
 
 SUBCOMMANDS:
-  clr                     generates clr file from JSON
-  json                    generates JSON from clr file OR CSV file OR ASE file a.k.a. "Adobe Swatch Exchange"
-  code                    generates Swift code, Objective-C code, Color Set, colors.xml from JSON
+  clr                     generates clr file from input
+  json                    generates JSON from clr file OR CSV file OR ASE file
+                          a.k.a. "Adobe Swatch Exchange"
+  code                    generates Swift code, Objective-C code, Color Set,
+                          colors.xml from input
 ```
 
 ## subcommands
 
 ### clr
 
-generates clr file from JSON
+generates clr file from input
 
 ```sh
 clg clr --output ~/Library/Colors sample.json
@@ -64,7 +66,7 @@ CSV file format should be like below
 
 ### code
 
-generates Swift code, Objective-C code, Color Set, colors.xml from JSON
+generates Swift code, Objective-C code, Color Set, colors.xml from input
 
 ```sh
 clg code --output ~/somewhere/ --code swift sample.json
