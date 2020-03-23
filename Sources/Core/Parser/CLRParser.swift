@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-public struct CLRParser {
+struct CLRParser {
     func parse(colorList: NSColorList) -> [[String : String]] {
         var dicts = [[String : String]]()
 

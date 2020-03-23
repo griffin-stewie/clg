@@ -25,7 +25,7 @@ extension Path: ExpressibleByArgument {
     }
 }
 
-public extension URL {
+extension URL {
     func basename(dropExtension: Bool) -> String {
         guard let p = Path(url: self) else {
             preconditionFailure("file URL expected")
@@ -35,20 +35,20 @@ public extension URL {
     }
 }
 
-public extension FileType {
+extension FileType {
     init(from path: String) throws {
         let url = Path(argument: path)!.url
         self = try .init(from: url)
     }
 }
 
-public extension ASE {
+extension ASE {
     init(from path: Path) throws {
         try self.init(from: path.url)
     }
 }
 
-public extension CSVParser {
+extension CSVParser {
     func parse(path: Path) -> NSColorList? {
         return parse(path.string)
     }
