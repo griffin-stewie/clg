@@ -12,10 +12,8 @@ OPTIONS:
 
 SUBCOMMANDS:
   clr                     generates clr file from input
-  json                    generates JSON from clr file OR CSV file OR ASE file
-                          a.k.a. "Adobe Swatch Exchange"
-  code                    generates Swift code, Objective-C code, Color Set,
-                          colors.xml from input
+  json                    generates JSON from clr file OR CSV file OR ASE file a.k.a. "Adobe Swatch Exchange"
+  code                    generates Swift code, Objective-C code, Color Set, colors.xml from input
 ```
 
 ## subcommands
@@ -76,12 +74,17 @@ clg code --output ~/somewhere/ --code swift sample.json
 
 - `--output`, `-o`
     - directory path for output
-- `--code`, `-c`
+- `--type`, `-t`
     - generate specific type of code file
         - `swift`
         - `objc`
         - `colorset`
         - `android`
+
+##### **DEPRECATED**
+
+`--code`, `-c` is deprecated. Use `--type`, `-t` option instead.
+
 
 ## Installation
 
