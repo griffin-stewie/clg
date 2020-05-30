@@ -9,7 +9,7 @@ let package = Package(
         .macOS(.v10_15),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "0.0.3"),
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "0.0.6"),
         .package(url: "https://github.com/mxcl/Path.swift.git", from: "1.0.1"),
         .package(url: "https://github.com/griffin-stewie/ASE", from: "1.0.0"),
     ],
