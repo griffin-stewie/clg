@@ -153,7 +153,7 @@ extension Color {
     public func colorComponetsDictionary() -> [String:String] {
         return [
             "red" : "\(colorComponent.red)",
-            "green" : "\(colorComponent.alpha)",
+            "green" : "\(colorComponent.green)",
             "blue" : "\(colorComponent.blue)",
             "alpha" : "\(colorComponent.alpha)",
         ]
