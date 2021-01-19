@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/mxcl/Path.swift.git",
         "state": {
           "branch": null,
-          "revision": "6e1eeb158ae0e71da3af23ef869aa0dc1adf7355",
-          "version": "1.0.1"
+          "revision": "142d4bc1118602f3679c777d2e0da89c227cd918",
+          "version": "1.2.0"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/apple/swift-argument-parser",
         "state": {
           "branch": null,
-          "revision": "3d79b2b5a2e5af52c14e462044702ea7728f5770",
-          "version": "0.1.0"
+          "revision": "9564d61b08a5335ae0a36f789a7d71493eacadfc",
+          "version": "0.3.2"
         }
       }
     ]
