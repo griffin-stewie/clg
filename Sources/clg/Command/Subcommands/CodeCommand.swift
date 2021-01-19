@@ -32,8 +32,8 @@ struct CodeCommand: ParsableCommand {
         return _codeType!
     }
 
-    @Option(name: [.customLong("output"), .customShort("o")], default: Path.cwd/".", help: ArgumentHelp("Output directory that generated file will be saved. (default: current directory)", valueName: "directory"))
-    var outputPath: Path
+    @Option(name: [.customLong("output"), .customShort("o")], help: ArgumentHelp("Output directory that generated file will be saved. (default: current directory)", valueName: "directory"))
+    var outputPath: Path = Path.cwd/"."
 
     @Argument(help: ArgumentHelp("Supported file types are \(FileType.allCasesDescription)", valueName: "input file"))
     var inputFilePath: Path

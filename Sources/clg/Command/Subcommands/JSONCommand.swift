@@ -19,10 +19,10 @@ struct JSONCommand: ParsableCommand {
         """
     )
 
-    @Option(name: [.customLong("output"), .customShort("o")], default: Path.cwd/".", help: ArgumentHelp("Output JSON file path. (default: current directory)", valueName: "directory"))
-    var outputPath: Path
+    @Option(name: [.customLong("output"), .customShort("o")], completion: .directory, help: ArgumentHelp("Output JSON file path. (default: current directory)", valueName: "directory"))
+    var outputPath: Path = Path.cwd/"."
 
-    @Argument()
+    @Argument(help: ArgumentHelp(#"clr file OR CSV file OR ASE file a.k.a. "Adobe Swatch Exchange""#), completion: .file(extensions: ["csv", "clr", "ase"]))
     var inputFilePath: Path
 
     func run() throws {
