@@ -16,8 +16,8 @@ struct CLRCommand: ParsableCommand {
         abstract: "generates clr file from input"
     )
 
-    @Option(name: [.customLong("output"), .customShort("o")], default: Path.home/"Library"/"Colors", help: "Output directory that clr file will be saved.")
-    var outputPath: Path
+    @Option(name: [.customLong("output"), .customShort("o")], help: ArgumentHelp("Output directory that clr file will be saved."))
+    var outputPath: Path = Path.home/"Library"/"Colors"
 
     @Argument(help: ArgumentHelp("Supported file types are \(FileType.allCasesDescription)", valueName: "input file"))
     var inputFilePath: Path
