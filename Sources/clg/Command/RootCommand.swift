@@ -11,7 +11,7 @@ import ArgumentParser
 
 @main
 struct RootCommand: ParsableCommand {
-    fileprivate static let version = "2.1.0"
+    fileprivate static let version = "2.2.0"
     static var configuration = CommandConfiguration(
         commandName: "clg",
         abstract: "clg, generates Color stuffs: Swift code, Objective-C code, Color Set, colors.xml, clr file, and JSON",
