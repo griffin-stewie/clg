@@ -245,3 +245,4 @@ Carthage/Build
 /Packages
 /*.xcodeproj
 xcuserdata/
+/release_binary.zip
