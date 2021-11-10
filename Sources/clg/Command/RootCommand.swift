@@ -9,6 +9,7 @@
 import Foundation
 import ArgumentParser
 
+@main
 struct RootCommand: ParsableCommand {
     fileprivate static let version = "2.1.0"
     static var configuration = CommandConfiguration(
