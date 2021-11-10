@@ -19,8 +19,8 @@ struct JSONCommand: ParsableCommand {
         """
     )
 
-    @Option(name: [.customLong("output"), .customShort("o")], default: Path.cwd/".", help: ArgumentHelp("Output JSON file path. (default: current directory)", valueName: "directory"))
-    var outputPath: Path
+    @Option(name: [.customLong("output"), .customShort("o")], help: ArgumentHelp("Output JSON file path. (default: current directory)", valueName: "directory"))
+    var outputPath: Path = Path.cwd/"."
 
     @Argument()
     var inputFilePath: Path
